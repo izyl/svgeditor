@@ -13,23 +13,22 @@ var DefaultTool = CClass.create(function($) {
 			me.paper = options.paper;
 			me.fill = options.fill;
 			me.stroke = options.stroke;
+			// toutes les items svg
+			me.items = options.items;
+			// l'item en cours
 			me.form = null;
 		},
 
 		onMouseDown : function(e) {
-			console.log('onMouseDown mother default listener');
 		},
 
 		onMouseMove : function(e) {
-			console.log('onMouseMove mother default listener');
 		},
 
 		onMouseUp : function(e) {
-			console.log('onMouseUp mother default listener');
 		},
-		
+
 		onDblclick : function(e) {
-			console.log('onDblclick mother default listener');
 		},
 
 		activate : function() {

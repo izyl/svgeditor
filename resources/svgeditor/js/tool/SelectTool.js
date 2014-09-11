@@ -4,7 +4,8 @@ var SelectTool = DefaultTool.extend(function($) {
 	var me = this;
 	var element;
 	var bbox;
-	var cdx = cdy = 0;
+	var set;
+	var cdx, cdy;
 
 	var selectionStyle = {
 		color : "#0066FF",
@@ -17,29 +18,40 @@ var SelectTool = DefaultTool.extend(function($) {
 	}
 
 	function onMove(dx, dy, x, y, e) { // e = event
-		
-		element.transform('t' + dx + ',' + dy);
-		bbox.transform('t' + dx + ',' + dy);
-		
-		console.log('t' + (dx) + ',' + (dy));
+
+		set.transform('t' + dx + ',' + dy);
+		cdx = dx;
+		cdy = dy;
 	}
 
-	function onEnd(dx, dy) {
-		//trans = element.transform();
-		//rtrans = bbox.transform();
+	function applyTransfo(elem) {
+		var realX = elem.matrix.x(elem.attr("x"), elem.attr("y"));
+		var realY = elem.matrix.y(elem.attr("x"), elem.attr("y"));
+		elem.attr({
+			x : realX,
+			y : realY
+		});
+		elem.transform('');
+	}
+
+	function onEnd(e) {
+
+		applyTransfo(bbox);
+		applyTransfo(element);
 	}
 
 	// var elem = paper.getElementByPoint(e.pageX, e.pageY);
 	function select(e) {
-		element = me.paper.getElementByPoint(e.pageX, e.pageY);
-		if (element && !bbox) {
-			
-			console.log('selected');
-			bboxProps = element.getBBox(false);
-			bbox = me.paper.rect(bboxProps.x, bboxProps.y, bboxProps.width, bboxProps.height);
-			bbox.glow(selectionStyle);
 
-			element.drag(onMove, onStart, onEnd);
+		if (!element) {
+			element = me.paper.getElementByPoint(e.pageX, e.pageY);
+			if (element) {
+				bboxProps = element.getBBox(false);
+				bbox = me.paper.rect(bboxProps.x, bboxProps.y, bboxProps.width, bboxProps.height);
+				bbox.attr('stroke', selectionStyle.color);
+				set = me.paper.set(element, bbox);
+				set.drag(onMove, onStart, onEnd);
+			}
 		}
 	}
 
@@ -56,6 +68,12 @@ var SelectTool = DefaultTool.extend(function($) {
 
 		getSelectionStyle : function() {
 			return selectionStyle;
+		},
+
+		desactivate : function() {
+			element = null;
+			bbox.remove();
+			bbox = null;
 		}
 	};
 });

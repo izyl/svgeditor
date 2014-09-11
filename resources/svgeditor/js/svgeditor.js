@@ -14,9 +14,10 @@
 			+ '<button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>' + '</div>' + '</div>' + '</div>' + '</div>';
 	var alert = $('<div class="alert alert-info"> <a class="close" href="#" data-dismiss="alert">&times;</a> <span class="contentspan"></span></div>');
 	var modal = $(modalTemplate);
-	
+
 	var paper;
 	var canvas;
+
 	var stroke = {
 		width : 1,
 		opacity : .50,
@@ -27,15 +28,15 @@
 		opacity : .90
 	};
 	var glow = {
-		width : 10,	
-		fill : false,	
-		opacity :  0.5,	
-		offsetx : 0,	
+		width : 10,
+		fill : false,
+		opacity : 0.5,
+		offsetx : 0,
 		offsety : 0,
 		color : '#000'
 	};
 	var selectedTool;
-
+	
 	// editor = new VectorEditor($("#canvas").get(0), $("#canvas").width(), $("#canvas").height());
 	var buildButton = function(btn) {
 		var $button = $(toolbarButtonTemplate);
@@ -60,12 +61,13 @@
 		if (btn.tool) {
 
 			btn.tool.init({
+				editor : this,
 				canvas : canvas,
 				paper : paper,
 				modal : modal,
 				stroke : stroke,
 				fill : fill,
-				alert : alert,
+				alert : alert
 			});
 
 			$button.on('click', function(e) {
@@ -104,13 +106,13 @@
 		canvas = $(canvasTemplate);
 		$this.append(canvas);
 		paper = Raphael(canvas.get(0), canvas.width(), canvas.height());
-		$(window).on('resize', function(e){
+		$(window).on('resize', function(e) {
 			paper.setSize(canvas.width(), canvas.height())
 		});
 	}
 
 	var initToolbar = function($this) {
-		
+
 		var toolbarBtnGroups = [];
 
 		var btns = [ {
@@ -203,6 +205,7 @@
 	};
 
 	var methods = {
+			
 		init : function(options) {
 			return this.each(function() {
 				var $this = $(this);
