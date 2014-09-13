@@ -1,40 +1,27 @@
-// on va voir pour faire de l'héritage propre après
-var ClearAction = (function($) {
-
+var ClearAction = DefaultToolbarItem.extend(function($) {
 	// privates
-
-	var paper;
-	var canvas;
-	var modal;
-
-	// Return an object exposed to the public
+	var me = this;
+	
+	// public
 	return {
 
-		init : function(options) {
-			var me = this;
-			canvas = options.canvas;
-			paper = options.paper;
-			modal = options.modal;
-
-			modal.find('.modal-title').text('Confirmation');
-			modal.find('.modal-body p').text('Every elements while be deleted, are you sure?');
-			modal.find('.btn-default').text('Cancel');
-			modal.find('.btn-primary').text('OK').on('click', function(e) {
-				paper.clear();
-			});
-			;
-
-		},
+		title : ToolbarConfig.CLEAR_ACTION.TITLE,
+		icon : ToolbarConfig.CLEAR_ACTION.ICON,
+		cls : ToolbarConfig.CLEAR_ACTION.CLS,
 
 		// rend l'outil actif
 		activate : function() {
-			modal.modal({
+
+			me.$modal.find('.modal-title').text('Confirmation');
+			me.$modal.find('.modal-body p').text('Every elements while be deleted, are you sure?');
+			me.$modal.find('.btn-default').text('Cancel');
+			me.$modal.find('.btn-primary').text('OK').on('click', function(e) {
+				me.paper.clear();
+			});
+			me.$modal.modal({
 				title : 'bla'
 			});
-		},
-
-		// desactive cet outil
-		desactivate : function() {
 		}
+
 	};
-})(jQuery);
+});

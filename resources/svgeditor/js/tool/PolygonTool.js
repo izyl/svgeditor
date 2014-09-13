@@ -1,20 +1,22 @@
-var PolygonTool = DefaultTool.extend(function($) {
+var PolygonTool = DefaultToolbarItem.extend(function($) {
 
 	// privates
 	var me = this;
 	var points = [];
-	var path;
+	var path = null;
 	var isDrawing = false;
-	var tmpPath;
+	var tmpPath = null;
 
 	function draw() {
 		me.form.attr('path', path);
 	}
 
 	function addTmpPoint(e) {
-		var point = me.getMousePosition(e);
-		tempPath = path + 'L' + point.x + ',' + point.y + 'L' + points[0].x + ',' + points[0].y + 'z';
-		me.form.attr('path', tempPath);
+		if (isDrawing) {
+			var point = me.getMousePosition(e);
+			tmpPath = path + 'L' + point.x + ',' + point.y + 'L' + points[0].x + ',' + points[0].y + 'z';
+			me.form.attr('path', tmpPath);
+		}
 	}
 
 	function addPoint(e) {
@@ -37,8 +39,7 @@ var PolygonTool = DefaultTool.extend(function($) {
 
 	// close the polygon
 	function end(e) {
-		isDrawing = false;
-		me.form.attr('path', tempPath);
+		me.form.attr('path', tmpPath);
 
 		// prepare for a new polygon
 		points = [];
@@ -48,18 +49,15 @@ var PolygonTool = DefaultTool.extend(function($) {
 	// public
 	return {
 
-		init : function(options) {
-			me._super(options);
-		},
+		title : ToolbarConfig.POLYGON_TOOL.TITLE,
+		icon : ToolbarConfig.POLYGON_TOOL.ICON,
 
 		onMouseDown : function(e) {
 			addPoint(e);
 		},
 
 		onMouseMove : function(e) {
-			if (isDrawing) {
-				addTmpPoint(e)
-			}
+			addTmpPoint(e);
 		},
 
 		onDblclick : function(e) {

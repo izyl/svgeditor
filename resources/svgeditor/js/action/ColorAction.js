@@ -1,27 +1,10 @@
-// on va voir pour faire de l'héritage propre après
-var ColorAction = (function($) {
-
-	// privates
-
-	var paper;
-	var canvas;
-
-	// Return an object exposed to the public
+var ColorAction = DefaultToolbarItem.extend(function($) {
+	// public
 	return {
 
-		init : function(options) {
-			var me = this;
-			canvas = options.canvas;
-			paper = options.paper;
-		},
+		title : ToolbarConfig.COLOR_ACTION.TITLE,
+		icon : ToolbarConfig.COLOR_ACTION.ICON,
+		text : ToolbarConfig.COLOR_ACTION.TEXT,
 
-		// rend l'outil actif
-		activate : function() {
-		},
-
-		// desactive cet outil
-		desactivate : function() {
-			canvas.off();
-		}
 	};
-})(jQuery);
+});

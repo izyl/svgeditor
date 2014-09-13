@@ -1,9 +1,9 @@
-var CircleTool = DefaultTool.extend(function($) {
+var CircleTool = DefaultToolbarItem.extend(function($) {
 
 	// privates
 	var me = this;
-	var center;
-	var r;
+	var center = 0;
+	var r = 0;
 
 	function getDistance(point1, point2) {
 		var xs = 0;
@@ -44,9 +44,8 @@ var CircleTool = DefaultTool.extend(function($) {
 	// Public
 	return {
 
-		init : function(options) {
-			me._super(options);
-		},
+		title : ToolbarConfig.CIRCLE_TOOL.TITLE,
+		icon : ToolbarConfig.CIRCLE_TOOL.ICON,
 
 		onMouseDown : function(e) {
 			start(e);
@@ -54,7 +53,7 @@ var CircleTool = DefaultTool.extend(function($) {
 
 		onMouseMove : function(e) {
 			if (me.form) {
-				draw(e)
+				draw(e);
 			}
 		},
 

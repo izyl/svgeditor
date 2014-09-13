@@ -1,26 +1,10 @@
-var GroupTool = (function($) {
-
-	// privates
-
-	var paper;
-	var canvas;
+var GroupTool = DefaultToolbarItem.extend(function($) {
 
 	// Return an object exposed to the public
 	return {
 
-		init : function(options) {
-			var me = this;
-			canvas = options.canvas;
-			paper = options.paper;
-		},
+		title : ToolbarConfig.GROUP_TOOL.TITLE,
+		icon : ToolbarConfig.GROUP_TOOL.ICON,
 
-		// rend l'outil actif
-		activate : function() {
-		},
-
-		// desactive cet outil
-		desactivate : function() {
-			canvas.off();
-		}
 	};
-})(jQuery);
+});

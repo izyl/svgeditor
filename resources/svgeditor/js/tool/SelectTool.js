@@ -1,65 +1,109 @@
-var SelectTool = DefaultTool.extend(function($) {
+var SelectTool = DefaultToolbarItem.extend(function($) {
 
 	// privates
 	var me = this;
-	var element;
-	var bbox;
-	var set;
-	var cdx, cdy;
+	var elements;
+	var bboxs;
 
 	var selectionStyle = {
 		color : "#0066FF",
 		offsetx : 2,
 		offsety : 2
-	}
+	};
 
 	function onStart() {
-		console.log('start');
 	}
 
-	function onMove(dx, dy, x, y, e) { // e = event
+	function onMove(dx, dy, x, y, e) {
+		elements.transform('t' + dx + ',' + dy);
+		bboxs.transform('t' + dx + ',' + dy);
+	};
 
-		set.transform('t' + dx + ',' + dy);
-		cdx = dx;
-		cdy = dy;
-	}
+	function applyTransfo(set) {
 
-	function applyTransfo(elem) {
-		var realX = elem.matrix.x(elem.attr("x"), elem.attr("y"));
-		var realY = elem.matrix.y(elem.attr("x"), elem.attr("y"));
-		elem.attr({
-			x : realX,
-			y : realY
+		set.forEach(function(elem) {
+
+			console.log(elem.attr('path'));
+			var realX = elem.matrix.x(elem.attr("x"), elem.attr("y"));
+			var realY = elem.matrix.y(elem.attr("x"), elem.attr("y"));
+			console.log(elem);
+			if (elem.type == 'path') {
+				elem.attr('path', Raphael.transformPath(elem.attr('path'), elem.transform()));
+			} else {
+				elem.attr({
+					x : realX,
+					y : realY,
+					cx : realX,
+					cy : realY,
+				});
+			}
+			elem.transform('');
 		});
-		elem.transform('');
+
 	}
 
 	function onEnd(e) {
+		applyTransfo(bboxs);
+		applyTransfo(elements);
+	};
 
-		applyTransfo(bbox);
-		applyTransfo(element);
-	}
+	function isElementSelected(element) {
+		var found = false;
+		elements.forEach(function(elem) {
+			if (elem.id == element.id) {
+				found = true;
+				return false;
+			}
+		});
+
+		return found;
+	};
 
 	// var elem = paper.getElementByPoint(e.pageX, e.pageY);
 	function select(e) {
 
+		element = me.paper.getElementByPoint(e.pageX, e.pageY);
 		if (!element) {
-			element = me.paper.getElementByPoint(e.pageX, e.pageY);
-			if (element) {
-				bboxProps = element.getBBox(false);
-				bbox = me.paper.rect(bboxProps.x, bboxProps.y, bboxProps.width, bboxProps.height);
-				bbox.attr('stroke', selectionStyle.color);
-				set = me.paper.set(element, bbox);
-				set.drag(onMove, onStart, onEnd);
-			}
+			clearSelection();
+		} else if (isElementSelected(element)) {
+			//unselect(element);
+		} else if (element) {
+			elements.push(element);
+			bboxProps = element.getBBox(false);
+			bbox = me.paper.rect(bboxProps.x, bboxProps.y, bboxProps.width, bboxProps.height);
+			bboxs.push(bbox);
+			bbox.attr('stroke', selectionStyle.color);
+			element.drag(onMove, onStart, onEnd);
+			element.data('bbox', bbox);
+			bbox.drag(onMove, onStart, onEnd);
 		}
-	}
+	};
+
+	function unselect(element) {
+		elements.exclude(element);
+		var bbox = element.data('bbox');
+		bboxs.exclude(bbox);
+		bbox.remove();
+	};
+
+	function clearSelection() {
+		bboxs.forEach(function(a) {
+			a.remove();
+		});
+		bboxs.clear();
+		elements.clear();
+	};
 
 	// public
 	return {
 
+		title : ToolbarConfig.SELECT_TOOL.TITLE,
+		icon : ToolbarConfig.SELECT_TOOL.ICON,
+
 		init : function(options) {
-			me._super(options);
+			this._super(options);
+			elements = me.paper.set();
+			bboxs = me.paper.set();
 		},
 
 		onMouseDown : function(e) {
@@ -71,9 +115,8 @@ var SelectTool = DefaultTool.extend(function($) {
 		},
 
 		desactivate : function() {
-			element = null;
-			bbox.remove();
-			bbox = null;
+			this._super();
+			clearSelection();
 		}
 	};
 });

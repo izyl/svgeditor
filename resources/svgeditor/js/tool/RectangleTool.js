@@ -1,9 +1,9 @@
-var RectangleTool = DefaultTool.extend(function($) {
+var RectangleTool = DefaultToolbarItem.extend(function($) {
 
 	// privates
 	var me = this;
-	var firstPoint;
-	var secondPoint;
+	var firstPoint = null;
+	var secondPoint = null;
 
 	function getProperties(pointA, pointB) {
 
@@ -12,7 +12,7 @@ var RectangleTool = DefaultTool.extend(function($) {
 			y : null,
 			width : null,
 			height : null
-		}
+		};
 
 		if (!pointA || !pointB) {
 			return null;
@@ -63,9 +63,8 @@ var RectangleTool = DefaultTool.extend(function($) {
 	// public
 	return {
 
-		init : function(options) {
-			me._super(options);
-		},
+		title : ToolbarConfig.RECTANGLE_TOOL.TITLE,
+		icon : ToolbarConfig.RECTANGLE_TOOL.ICON,
 
 		onMouseDown : function(e) {
 			start(e);
@@ -73,7 +72,7 @@ var RectangleTool = DefaultTool.extend(function($) {
 
 		onMouseMove : function(e) {
 			if (me.form) {
-				draw(e)
+				draw(e);
 			}
 		},
 
