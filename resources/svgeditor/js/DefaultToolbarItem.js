@@ -1,24 +1,11 @@
 // Default tool : classe mere des tools
-var DefaultToolbarItem = CClass.create(function(options) {
+var DefaultToolbarItem = CClass.create(function($, options) {
 
 	// private
 	var me;
 
 	// public
 	return {
-
-		init : function(options) {
-			me = this;
-			me.$canvas = options.$canvas;
-			me.$modal = options.$modal;
-			me.paper = options.paper;
-			me.fill = options.fill;
-			me.stroke = options.stroke;
-			// toutes les items svg
-			me.items = options.items;
-			// l'item en cours
-			me.form = null;
-		},
 
 		onMouseDown : function(e) {
 		},
@@ -34,30 +21,34 @@ var DefaultToolbarItem = CClass.create(function(options) {
 
 		activate : function() {
 
+			me = this;
+			console.log(me);
+			console.log(options);
+			console.log(options.$canvas);
 			// ici this représente l'instance de l'objet enfant (par exemple rectangleTool)
-			me.$canvas.on("mousedown", function(e) {
+			options.$canvas.on("mousedown", function(e) {
 				me.onMouseDown(e);
 			});
 
-			me.$canvas.on("mousemove", function(e) {
+			options.$canvas.on("mousemove", function(e) {
 				me.onMouseMove(e);
 			});
 
-			me.$canvas.on("mouseup", function(e) {
+			options.$canvas.on("mouseup", function(e) {
 				me.onMouseUp(e);
 			});
 
-			me.$canvas.on("dblclick", function(e) {
+			options.$canvas.on("dblclick", function(e) {
 				me.onDblclick(e);
 			});
 		},
 
 		desactivate : function() {
-			me.$canvas.off();
+			options.$canvas.off();
 		},
 
 		getMousePosition : function(e) {
-			var offset = me.$canvas.offset();
+			var offset = options.$canvas.offset();
 			var point = {};
 
 			point.x = e.pageX - (offset.left);

@@ -1,4 +1,6 @@
-var StrokeAction = DefaultToolbarItem.extend(function($) {
+var StrokeAction = DefaultToolbarItem.extend(function($, options) {
+
+	this._super($, options);
 
 	// public
 	return {

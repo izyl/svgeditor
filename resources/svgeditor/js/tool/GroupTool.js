@@ -1,4 +1,6 @@
-var GroupTool = DefaultToolbarItem.extend(function($) {
+var GroupTool = DefaultToolbarItem.extend(function($, options) {
+
+	this._super($, options);
 
 	// Return an object exposed to the public
 	return {

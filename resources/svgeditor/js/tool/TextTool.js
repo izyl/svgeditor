@@ -1,4 +1,6 @@
-var TextTool = DefaultToolbarItem.extend(function($) {
+var TextTool = DefaultToolbarItem.extend(function($, options) {
+
+	this._super($, options);
 
 	// public
 	return {

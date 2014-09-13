@@ -1,7 +1,10 @@
-var ClearAction = DefaultToolbarItem.extend(function($) {
+var ClearAction = DefaultToolbarItem.extend(function($, options) {
+
+	this._super($, options);
+
 	// privates
 	var me = this;
-	
+
 	// public
 	return {
 
@@ -12,13 +15,13 @@ var ClearAction = DefaultToolbarItem.extend(function($) {
 		// rend l'outil actif
 		activate : function() {
 
-			me.$modal.find('.modal-title').text('Confirmation');
-			me.$modal.find('.modal-body p').text('Every elements while be deleted, are you sure?');
-			me.$modal.find('.btn-default').text('Cancel');
-			me.$modal.find('.btn-primary').text('OK').on('click', function(e) {
-				me.paper.clear();
+			options.$modal.find('.modal-title').text('Confirmation');
+			options.$modal.find('.modal-body p').text('Every elements while be deleted, are you sure?');
+			options.$modal.find('.btn-default').text('Cancel');
+			options.$modal.find('.btn-primary').text('OK').on('click', function(e) {
+				options.paper.clear();
 			});
-			me.$modal.modal({
+			options.$modal.modal({
 				title : 'bla'
 			});
 		}

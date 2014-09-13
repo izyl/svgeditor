@@ -1,4 +1,4 @@
-var DeleteAction = DefaultToolbarItem.extend(function($) {
+var DeleteAction = DefaultToolbarItem.extend(function($, options) {
 
 	// public
 	return {

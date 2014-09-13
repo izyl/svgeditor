@@ -1,4 +1,7 @@
-var LineTool = DefaultToolbarItem.extend(function($) {
+var LineTool = DefaultToolbarItem.extend(function($, options) {
+
+	this._super($, options);
+
 	// privates
 	var me = this;
 	var firstPoint = null;
@@ -7,7 +10,7 @@ var LineTool = DefaultToolbarItem.extend(function($) {
 
 	function start(e) {
 		firstPoint = me.getMousePosition(e);
-		line = me.paper.path("M" + firstPoint.x + "," + firstPoint.y);
+		line = options.paper.path("M" + firstPoint.x + "," + firstPoint.y);
 	}
 
 	function getLinePath(firstPoint, secondPoint) {
@@ -17,9 +20,9 @@ var LineTool = DefaultToolbarItem.extend(function($) {
 		secondPoint = me.getMousePosition(e);
 		var linePath = getLinePath(firstPoint, secondPoint);
 		line.attr('path', linePath);
-		line.attr("fill", me.fill.color);
-		line.attr("stroke", me.stroke.color);
-		line.attr("stroke-width", me.stroke.width);
+		line.attr("fill", options.fill.color);
+		line.attr("stroke", options.stroke.color);
+		line.attr("stroke-width", options.stroke.width);
 	}
 
 	// Public
@@ -30,18 +33,18 @@ var LineTool = DefaultToolbarItem.extend(function($) {
 
 		// rend l'outil actif
 		activate : function() {
-			me.$canvas.on("mousedown", function(e) {
+			options.$canvas.on("mousedown", function(e) {
 				start(e);
 			});
 
-			me.$canvas.on("mousemove", function(e) {
+			options.$canvas.on("mousemove", function(e) {
 
 				if (line) {
 					draw(e);
 				}
 			});
 
-			me.$canvas.on("mouseup", function(e) {
+			options.$canvas.on("mouseup", function(e) {
 				draw(e);
 				line = null;
 			});

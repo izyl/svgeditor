@@ -1,4 +1,6 @@
-var RectangleTool = DefaultToolbarItem.extend(function($) {
+var RectangleTool = DefaultToolbarItem.extend(function($, options) {
+
+	this._super($, options);
 
 	// privates
 	var me = this;
@@ -41,12 +43,12 @@ var RectangleTool = DefaultToolbarItem.extend(function($) {
 	}
 
 	function setProps(props) {
-		me.form.attr('x', props.x);
-		me.form.attr('y', props.y);
-		me.form.attr('width', props.width);
-		me.form.attr('height', props.height);
-		me.form.attr("fill", me.fill.color);
-		me.form.attr("stroke", me.stroke.color);
+		options.form.attr('x', props.x);
+		options.form.attr('y', props.y);
+		options.form.attr('width', props.width);
+		options.form.attr('height', props.height);
+		options.form.attr("fill", options.fill.color);
+		options.form.attr("stroke", options.stroke.color);
 	}
 
 	function draw(e) {
@@ -57,7 +59,7 @@ var RectangleTool = DefaultToolbarItem.extend(function($) {
 
 	function start(e) {
 		firstPoint = me.getMousePosition(e);
-		me.form = me.paper.rect(firstPoint.x, firstPoint.y, 0, 0);
+		options.form = options.paper.rect(firstPoint.x, firstPoint.y, 0, 0);
 	}
 
 	// public
@@ -71,14 +73,14 @@ var RectangleTool = DefaultToolbarItem.extend(function($) {
 		},
 
 		onMouseMove : function(e) {
-			if (me.form) {
+			if (options.form) {
 				draw(e);
 			}
 		},
 
 		onMouseUp : function(e) {
 			draw(e);
-			me.form = null;
+			options.form = null;
 		}
 	};
 });

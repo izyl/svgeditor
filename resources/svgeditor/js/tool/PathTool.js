@@ -1,4 +1,6 @@
-var PathTool = DefaultToolbarItem.extend(function($) {
+var PathTool = DefaultToolbarItem.extend(function($, options) {
+
+	this._super($, options);
 
 	// privates
 	var me = this;
@@ -8,22 +10,22 @@ var PathTool = DefaultToolbarItem.extend(function($) {
 	function draw(e) {
 		var point = me.getMousePosition(e);
 		path += 'L' + point.x + ',' + point.y;
-		me.form.attr('path', path);
+		options.form.attr('path', path);
 	}
 
 	function start(e) {
 		isDrawing = true;
 		var point = me.getMousePosition(e);
 		path = "M" + point.x + ',' + point.y;
-		me.form = me.paper.path(path);
-		me.form.attr("fill", me.fill.color);
-		me.form.attr("stroke", me.stroke.color);
-		me.form.attr("stroke-width", me.stroke.width);
+		options.form = options.paper.path(path);
+		options.form.attr("fill", options.fill.color);
+		options.form.attr("stroke", options.stroke.color);
+		options.form.attr("stroke-width", options.stroke.width);
 	}
 
 	function end(e) {
 		path += 'z';
-		me.form.attr('path', path);
+		options.form.attr('path', path);
 	}
 
 	// public

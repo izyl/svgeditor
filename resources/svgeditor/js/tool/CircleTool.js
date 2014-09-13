@@ -1,4 +1,6 @@
-var CircleTool = DefaultToolbarItem.extend(function($) {
+var CircleTool = DefaultToolbarItem.extend(function($, options) {
+
+	this._super($, options);
 
 	// privates
 	var me = this;
@@ -25,7 +27,7 @@ var CircleTool = DefaultToolbarItem.extend(function($) {
 
 	function start(e) {
 		center = me.getMousePosition(e);
-		me.form = me.paper.circle(center.x, center.y, 0);
+		options.form = options.paper.circle(center.x, center.y, 0);
 	}
 
 	function draw(e) {
@@ -34,11 +36,11 @@ var CircleTool = DefaultToolbarItem.extend(function($) {
 	}
 
 	function drawCircle() {
-		me.form.attr('x', center.x);
-		me.form.attr('y', center.y);
-		me.form.attr('r', r);
-		me.form.attr("fill", me.fill.color);
-		me.form.attr("stroke", me.stroke.color);
+		options.form.attr('x', center.x);
+		options.form.attr('y', center.y);
+		options.form.attr('r', r);
+		options.form.attr("fill", options.fill.color);
+		options.form.attr("stroke", options.stroke.color);
 	}
 
 	// Public
@@ -52,14 +54,14 @@ var CircleTool = DefaultToolbarItem.extend(function($) {
 		},
 
 		onMouseMove : function(e) {
-			if (me.form) {
+			if (options.form) {
 				draw(e);
 			}
 		},
 
 		onMouseUp : function(e) {
 			draw(e);
-			me.form = null;
+			options.form = null;
 		}
 	};
 });

@@ -89,10 +89,20 @@
 	var initToolbar = function($this) {
 
 		var $toolbar = $(toolbarTemplate);
-		addToolbarGroup($toolbar, [ new SelectTool(), new GroupTool(), new DeleteAction(), new ClearAction() ]);
-		addToolbarGroup($toolbar, [ new RectangleTool(), new LineTool(), new CircleTool(), new PathTool(), new PolygonTool(), new ImageTool(), new TextTool() ]);
-		addToolbarGroup($toolbar, [ new ColorAction(), new StrokeAction() ]);
-		addToolbarGroup($toolbar, [ new ImportAction(), new ExportAction(), new SaveAction() ]);
+		
+		var options = {
+			$canvas : $canvas,
+			$alert : $alert,
+			$modal : $modal,
+			paper : paper,
+			stroke : stroke,
+			fill : fill,
+		}
+
+		addToolbarGroup($toolbar, [ new SelectTool($,options), new GroupTool($,options), new DeleteAction($,options), new ClearAction($,options) ]);
+		addToolbarGroup($toolbar, [ new RectangleTool($,options), new LineTool($,options), new CircleTool($,options), new PathTool($,options), new PolygonTool($,options), new ImageTool($,options), new TextTool($,options) ]);
+		addToolbarGroup($toolbar, [ new ColorAction($,options), new StrokeAction($,options) ]);
+		addToolbarGroup($toolbar, [ new ImportAction($,options), new ExportAction($,options), new SaveAction($,options) ]);
 		$this.before($toolbar);
 	};
 
@@ -106,15 +116,6 @@
 
 	var buildButton = function(btn) {
 		var $button = $(buttonTemplate);
-		
-		btn.init({
-			$canvas : $canvas,
-			$alert : $alert,
-			$modal : $modal,
-			paper : paper,
-			stroke : stroke,
-			fill : fill,
-		});
 
 		if (btn.cls) {
 			$button.addClass(btn.cls);

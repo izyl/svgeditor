@@ -1,4 +1,6 @@
-var PolygonTool = DefaultToolbarItem.extend(function($) {
+var PolygonTool = DefaultToolbarItem.extend(function($, options) {
+
+	this._super($, options);
 
 	// privates
 	var me = this;
@@ -8,14 +10,14 @@ var PolygonTool = DefaultToolbarItem.extend(function($) {
 	var tmpPath = null;
 
 	function draw() {
-		me.form.attr('path', path);
+		options.form.attr('path', path);
 	}
 
 	function addTmpPoint(e) {
 		if (isDrawing) {
 			var point = me.getMousePosition(e);
 			tmpPath = path + 'L' + point.x + ',' + point.y + 'L' + points[0].x + ',' + points[0].y + 'z';
-			me.form.attr('path', tmpPath);
+			options.form.attr('path', tmpPath);
 		}
 	}
 
@@ -26,10 +28,10 @@ var PolygonTool = DefaultToolbarItem.extend(function($) {
 
 		if (points.length == 1) {
 			path = "M" + point.x + ',' + point.y;
-			me.form = me.paper.path(path);
-			me.form.attr("fill", me.fill.color);
-			me.form.attr("stroke", me.stroke.color);
-			me.form.attr("stroke-width", me.stroke.width);
+			options.form = options.paper.path(path);
+			options.form.attr("fill", options.fill.color);
+			options.form.attr("stroke", options.stroke.color);
+			options.form.attr("stroke-width", options.stroke.width);
 			draw();
 		} else if (points.length > 1) {
 			path = path + 'L' + point.x + ',' + point.y;
@@ -39,7 +41,7 @@ var PolygonTool = DefaultToolbarItem.extend(function($) {
 
 	// close the polygon
 	function end(e) {
-		me.form.attr('path', tmpPath);
+		options.form.attr('path', tmpPath);
 
 		// prepare for a new polygon
 		points = [];
