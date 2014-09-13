@@ -61,16 +61,34 @@
 
 	var buildUi = function($this) {
 		initCanvas($this);
+		initGrid($this);
 		initToolbar($this);
 	};
 
 	var initCanvas = function($this) {
 		$this.append($canvas);
+
 		paper = Raphael($canvas.get(0), $canvas.width(), $canvas.height());
+		paper.canvas.style.backgroundColor = ToolbarConfig.grid.fill;
+
 		$(window).on('resize', function(e) {
 			paper.setSize($canvas.width(), $canvas.height());
 		});
 	};
+
+	var initGrid = function() {
+
+		// vertical lines
+		for (var x = ($canvas.offset().left % ToolbarConfig.gridCellSize); x < $canvas.width(); x += ToolbarConfig.gridCellSize) {
+			var vpath = "M " + x + " 0 l 0 " + $canvas.height() + " z";
+			paper.path(vpath).attr(ToolbarConfig.grid);
+		}
+		// horizontal lines
+		for (var y = ($canvas.offset().top % ToolbarConfig.gridCellSize); y < $canvas.height(); y += ToolbarConfig.gridCellSize) {
+			var hpath = "M 0 " + y + " l " + $canvas.width() + " 0 z";
+			paper.path(hpath).attr(ToolbarConfig.grid);
+		}
+	}
 
 	var initToolbar = function($this) {
 		var $toolbar = $(toolbarTemplate);
@@ -82,7 +100,7 @@
 			stroke : stroke,
 			fill : fill,
 		};
-		addToolbarGroup($toolbar, [ new SelectTool($, options), new GroupTool($, options), new DeleteAction($, options), new ClearAction($, options) ]);
+		addToolbarGroup($toolbar, [ new SelectTool($, options), new DeleteAction($, options), new ClearAction($, options) ]);
 		addToolbarGroup($toolbar, [ new RectangleTool($, options), new LineTool($, options), new CircleTool($, options), new PathTool($, options),
 				new PolygonTool($, options), new ImageTool($, options), new TextTool($, options) ]);
 		addToolbarGroup($toolbar, [ new ColorAction($, options), new StrokeAction($, options) ]);
