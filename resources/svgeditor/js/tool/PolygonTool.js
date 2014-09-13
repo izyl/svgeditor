@@ -4,6 +4,7 @@ var PolygonTool = DefaultToolbarItem.extend(function($, options) {
 
 	// privates
 	var me = this;
+	var $this = $(this);
 	var points = [];
 	var path = null;
 	var isDrawing = false;
@@ -64,6 +65,7 @@ var PolygonTool = DefaultToolbarItem.extend(function($, options) {
 
 		onDblclick : function(e) {
 			end(e);
+			$this.trigger('svge.addElement', options.form);
 		}
 	};
 });

@@ -22,10 +22,7 @@ var DefaultToolbarItem = CClass.create(function($, options) {
 		activate : function() {
 
 			me = this;
-			console.log(me);
-			console.log(options);
-			console.log(options.$canvas);
-			// ici this représente l'instance de l'objet enfant (par exemple rectangleTool)
+			// this représente ici l'instance de l'objet enfant (par exemple rectangleTool)
 			options.$canvas.on("mousedown", function(e) {
 				me.onMouseDown(e);
 			});
@@ -52,7 +49,7 @@ var DefaultToolbarItem = CClass.create(function($, options) {
 			var point = {};
 
 			point.x = e.pageX - (offset.left);
-			point.y = e.pageY - (offset.top)
+			point.y = e.pageY - (offset.top);
 
 			return point;
 		}

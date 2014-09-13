@@ -4,6 +4,7 @@ var PathTool = DefaultToolbarItem.extend(function($, options) {
 
 	// privates
 	var me = this;
+	var $this = $(this);
 	var path = "";
 	var isDrawing = false;
 
@@ -51,6 +52,7 @@ var PathTool = DefaultToolbarItem.extend(function($, options) {
 
 		onDblclick : function(e) {
 			end(e);
+			$this.trigger('svge.addElement', options.form);
 		}
 	};
 });

@@ -1,6 +1,7 @@
 var CircleTool = DefaultToolbarItem.extend(function($, options) {
 
 	this._super($, options);
+	var $this = $(this);
 
 	// privates
 	var me = this;
@@ -61,6 +62,7 @@ var CircleTool = DefaultToolbarItem.extend(function($, options) {
 
 		onMouseUp : function(e) {
 			draw(e);
+			$this.trigger('svge.addElement', options.form);
 			options.form = null;
 		}
 	};

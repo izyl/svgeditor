@@ -1,30 +1,30 @@
 ToolbarConfig = {
 
 	stroke : {
-		width : 1,
-		opacity : .50,
-		color : '#fff'
+		width : .5,
+		opacity : 1,
+		color : 'black'
 	},
 	fill : {
-		color : '#fff',
+		color : '#ccc',
 		opacity : .90
 	},
 
 	glow : {
-		width : 10,
-		fill : false,
-		opacity : 0.5,
+		width : 5,
+		opacity : 1,
 		offsetx : 0,
 		offsety : 0,
-		color : '#fff' // html5 DodgerBlue
+		color : '#1E90FF' // html5 DodgerBlue
 	},
 
 	grid : {
-		"fill" : "#2C53B0",
-		"stroke" : "#fff",
-		"stroke-width" : 0.1
+		"fill" : "#fff",
+		"stroke" : "#ccc",
+		"stroke-width" : 0.1,
+		"opacity" : 1
 	},
-	
+
 	gridCellSize : 25,
 
 	/**

@@ -7,20 +7,6 @@ var SelectTool = DefaultToolbarItem.extend(function($, options) {
 	var glows = options.paper.set();
 	// var bboxs = options.paper.set();
 
-	function onMove(dx, dy, x, y, e) {
-		elements.transform("t" + dx + "," + dy);
-		glows.transform("t" + dx + "," + dy);
-		// bboxs.transform("t" + dx + "," + dy);
-	}
-
-	function onEnd(e) {
-		applyTransfo(elements);
-		for (var glow = 0; glow < glows.length; glow++) {
-			applyTransfo(glows[glow]);
-		}
-		// applyTransfo(bboxs);
-	}
-
 	function applyTransfo(set) {
 
 		set.forEach(function(elem) {
@@ -71,9 +57,7 @@ var SelectTool = DefaultToolbarItem.extend(function($, options) {
 			var glow = element.glow(ToolbarConfig.glow);
 			glows.push(glow);
 			element.data("glow", glow);
-
-			element.drag(onMove, $.emptyFn, onEnd);
-			glow.drag(onMove, $.emptyFn, onEnd);
+			glow.drag(this.onMove, $.emptyFn, this.onEnd);
 		}
 	}
 
@@ -99,6 +83,21 @@ var SelectTool = DefaultToolbarItem.extend(function($, options) {
 
 		title : ToolbarConfig.SELECT_TOOL.TITLE,
 		icon : ToolbarConfig.SELECT_TOOL.ICON,
+		
+		 onMove : function(dx, dy, x, y, e) {
+			elements.transform("t" + dx + "," + dy);
+			glows.transform("t" + dx + "," + dy);
+			// bboxs.transform("t" + dx + "," + dy);
+		},
+
+		onEnd : function(e) {
+			applyTransfo(elements);
+			for (var glow = 0; glow < glows.length; glow++) {
+				applyTransfo(glows[glow]);
+			}
+			// applyTransfo(bboxs);
+		},
+
 
 		onMouseDown : function(e) {
 			select(e);

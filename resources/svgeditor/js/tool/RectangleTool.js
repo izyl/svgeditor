@@ -4,6 +4,7 @@ var RectangleTool = DefaultToolbarItem.extend(function($, options) {
 
 	// privates
 	var me = this;
+	var $this = $(this);
 	var firstPoint = null;
 	var secondPoint = null;
 
@@ -49,6 +50,7 @@ var RectangleTool = DefaultToolbarItem.extend(function($, options) {
 		options.form.attr('height', props.height);
 		options.form.attr("fill", options.fill.color);
 		options.form.attr("stroke", options.stroke.color);
+		options.form.attr("stroke-width", options.stroke.width);
 	}
 
 	function draw(e) {
@@ -80,6 +82,7 @@ var RectangleTool = DefaultToolbarItem.extend(function($, options) {
 
 		onMouseUp : function(e) {
 			draw(e);
+			$this.trigger('svge.addElement', options.form);
 			options.form = null;
 		}
 	};

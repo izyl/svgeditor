@@ -1,4 +1,4 @@
-var ClearAction = DefaultToolbarItem.extend(function($, options) {
+var ClearAction = DefaultToolbarItem.extend(function($, options, editor) {
 
 	this._super($, options);
 
