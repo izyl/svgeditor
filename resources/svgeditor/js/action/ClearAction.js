@@ -16,7 +16,7 @@ var ClearAction = DefaultToolbarItem.extend(function($, options) {
 		activate : function() {
 
 			options.$modal.find('.modal-title').text('Confirmation');
-			options.$modal.find('.modal-body p').text('Every elements while be deleted, are you sure?');
+			options.$modal.find('.modal-body p').text('Every elements will be deleted, are you sure?');
 			options.$modal.find('.btn-default').text('Cancel');
 			options.$modal.find('.btn-primary').text('OK').on('click', function(e) {
 				options.paper.clear();
