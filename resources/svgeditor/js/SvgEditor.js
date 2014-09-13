@@ -1,27 +1,20 @@
 (function($) {
 
 	var $this;
+
 	/** private varialbes/methods */
 	var $canvas = $(ToolbarConfig.TEMPLATE_CANVAS);
 	var toolbarTemplate = ToolbarConfig.TEMPLATE_TOOLBAR;
 	var toolbarGroupTemplate = ToolbarConfig.TEMPLATE_TOOLBARGROUP;
 	var buttonTemplate = ToolbarConfig.TEMPLATE_BUTTON;
 	var imgTemplate = ToolbarConfig.TEMPLATE_IMG;
-
 	var $alert = $(ToolbarConfig.TEMPLATE_ALERT);
 	var $modal = $(ToolbarConfig.TEMPLATE_MODAL);
 
 	var paper;
 
-	var stroke = {
-		width : 1,
-		opacity : .50,
-		color : '#000'
-	};
-	var fill = {
-		color : '#ccc',
-		opacity : .90
-	};
+	var stroke = ToolbarConfig.stroke;
+	var fill = ToolbarConfig.fill;
 	// var glow = {
 	// width : 10,
 	// fill : false,
