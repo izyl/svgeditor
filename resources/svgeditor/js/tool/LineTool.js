@@ -31,7 +31,7 @@ var LineTool = DefaultToolbarItem.extend(function($, options) {
 		title : ToolbarConfig.LINE_TOOL.TITLE,
 		icon : ToolbarConfig.LINE_TOOL.ICON,
 
-		// rend l'outil actif
+		
 		activate : function() {
 			options.$canvas.on("mousedown", function(e) {
 				start(e);

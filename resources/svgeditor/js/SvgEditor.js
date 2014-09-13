@@ -1,22 +1,15 @@
 (function($) {
 
 	var $this;
-
 	/** private varialbes/methods */
-	var canvasTemplate = '<div class="panel panel-default canvas"></div>';
-	var toolbarTemplate = '<div class="btn-toolbar" role="toolbar"></div>';
-	var toolbarGroupTemplate = '<div class="btn-group"></div>)';
-	var buttonTemplate = '<a class="btn btn-default"  data-toggle="tooltip" data-placement="left" data-toggle="confirmation" type="button" ></a>';
-	// j'utilise des img car les icones graphiques que je veux ne sont pas dans les Glyphicons de bootstrap : http://getbootstrap.com/components/#glyphicons
-	var imgTemplate = '<img class="media-object">';
-	var modalTemplate = '<div class="modal fade">' + '<div class="modal-dialog">' + '<div class="modal-content">' + '<div class="modal-header waning">'
-			+ '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'
-			+ '<h4 class="modal-title">Modal title</h4>' + '</div>' + '<div class="modal-body">' + '<p>One fine body&hellip;</p>' + '</div>'
-			+ '<div class="modal-footer">' + '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'
-			+ '<button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>' + '</div>' + '</div>' + '</div>' + '</div>';
-	var $alert = $('<div class="alert alert-info"> <a class="close" href="#" data-dismiss="alert">&times;</a> <span class="contentspan"></span></div>');
-	var $modal = $(modalTemplate);
-	var $canvas = $(canvasTemplate);
+	var $canvas = $(ToolbarConfig.TEMPLATE_CANVAS);
+	var toolbarTemplate = ToolbarConfig.TEMPLATE_TOOLBAR;
+	var toolbarGroupTemplate = ToolbarConfig.TEMPLATE_TOOLBARGROUP;
+	var buttonTemplate = ToolbarConfig.TEMPLATE_BUTTON;
+	var imgTemplate = ToolbarConfig.TEMPLATE_IMG;
+
+	var $alert = $(ToolbarConfig.TEMPLATE_ALERT);
+	var $modal = $(ToolbarConfig.TEMPLATE_MODAL);
 
 	var paper;
 
@@ -87,9 +80,7 @@
 	};
 
 	var initToolbar = function($this) {
-
 		var $toolbar = $(toolbarTemplate);
-		
 		var options = {
 			$canvas : $canvas,
 			$alert : $alert,
@@ -97,16 +88,17 @@
 			paper : paper,
 			stroke : stroke,
 			fill : fill,
-		}
-
-		addToolbarGroup($toolbar, [ new SelectTool($,options), new GroupTool($,options), new DeleteAction($,options), new ClearAction($,options) ]);
-		addToolbarGroup($toolbar, [ new RectangleTool($,options), new LineTool($,options), new CircleTool($,options), new PathTool($,options), new PolygonTool($,options), new ImageTool($,options), new TextTool($,options) ]);
-		addToolbarGroup($toolbar, [ new ColorAction($,options), new StrokeAction($,options) ]);
-		addToolbarGroup($toolbar, [ new ImportAction($,options), new ExportAction($,options), new SaveAction($,options) ]);
+		};
+		addToolbarGroup($toolbar, [ new SelectTool($, options), new GroupTool($, options), new DeleteAction($, options), new ClearAction($, options) ]);
+		addToolbarGroup($toolbar, [ new RectangleTool($, options), new LineTool($, options), new CircleTool($, options), new PathTool($, options),
+				new PolygonTool($, options), new ImageTool($, options), new TextTool($, options) ]);
+		addToolbarGroup($toolbar, [ new ColorAction($, options), new StrokeAction($, options) ]);
+		addToolbarGroup($toolbar, [ new ImportAction($, options), new ExportAction($, options), new SaveAction($, options) ]);
 		$this.before($toolbar);
 	};
 
 	var addToolbarGroup = function($toolbar, btns) {
+
 		var $group = $(toolbarGroupTemplate);
 		for (btn in btns) {
 			$group.append(buildButton(btns[btn]));
@@ -129,8 +121,9 @@
 		if (btn.text)
 			$button.text(btn.text);
 
-		if (btn.icon)
+		if (btn.icon) {
 			$button.append($(imgTemplate).attr('src', btn.icon).attr('alt', btn.title));
+		}
 
 		$button.on('click', function(e) {
 			if (selectedTool) {

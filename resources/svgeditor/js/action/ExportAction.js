@@ -11,7 +11,7 @@ var ExportAction = DefaultToolbarItem.extend(function($, options) {
 		title : ToolbarConfig.EXPORT_ACTION.TITLE,
 		icon : ToolbarConfig.EXPORT_ACTION.ICON,
 
-		// rend l'outil actif
+		
 		activate : function() {
 			// $.ajax
 

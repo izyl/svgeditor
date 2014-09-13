@@ -12,7 +12,7 @@ var ClearAction = DefaultToolbarItem.extend(function($, options) {
 		icon : ToolbarConfig.CLEAR_ACTION.ICON,
 		cls : ToolbarConfig.CLEAR_ACTION.CLS,
 
-		// rend l'outil actif
+		
 		activate : function() {
 
 			options.$modal.find('.modal-title').text('Confirmation');
