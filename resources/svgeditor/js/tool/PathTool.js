@@ -6,7 +6,6 @@ var PathTool = DefaultToolbarItem.extend(function($, options) {
 	var me = this;
 	var $this = $(this);
 	var path = "";
-	var isDrawing = false;
 	var form;
 
 	function draw(e) {
@@ -16,7 +15,6 @@ var PathTool = DefaultToolbarItem.extend(function($, options) {
 	}
 
 	function start(e) {
-		isDrawing = true;
 		var point = me.getMousePosition(e);
 		path = "M" + point.x + ',' + point.y;
 		form = options.paper.path(path);
@@ -26,6 +24,7 @@ var PathTool = DefaultToolbarItem.extend(function($, options) {
 	}
 
 	function end(e) {
+		draw(e);
 		path += 'z';
 		form.attr('path', path);
 	}
@@ -41,20 +40,18 @@ var PathTool = DefaultToolbarItem.extend(function($, options) {
 		},
 
 		onMouseMove : function(e) {
-			if (isDrawing) {
+			if (form) {
 				draw(e);
 			}
 		},
 
 		onMouseUp : function(e) {
-			draw(e);
-			isDrawing = false;
+			if (form) {
+				end(e);
+				$this.trigger('svge.addElement', form);
+				form = null;
+			}
 		},
 
-		onDblclick : function(e) {
-			end(e);
-			$this.trigger('svge.addElement', form);
-			form = null;
-		}
 	};
 });

@@ -29,19 +29,16 @@
 				$this = $(this);
 				me = this;
 
-				var settings = $this.data('svgeditor');
+				$settings = $this.data('svgeditor');
 				var defaults = {
 					containerId : 'svgeditor',
 					onSomeEvent : function() {
 					}
 				};
 
-				if (typeof (settings) == 'undefined') {
-
-					settings = $.extend({}, defaults, options);
-					$this.data('svgeditor', settings);
-				} else {
-					settings = $.extend(defaults, settings, options);
+				$settings = $.extend(defaults, $settings, options);
+				if (typeof ($settings) == 'undefined') {
+					$this.data('svgeditor', $settings);
 				}
 
 				buildUi($this);
@@ -57,7 +54,8 @@
 
 	var buildUi = function($this) {
 		initCanvas($this);
-		initGrid($this);
+		if ($settings.initGrid)
+			initGrid($this);
 		initToolbar($this);
 	};
 
@@ -83,7 +81,10 @@
 			var path = paper.path(vpath).attr(ToolbarConfig.grid);
 			path.mousedown(function(e) {
 				e.stopImmediatePropagation();
-				selectTool.clearSelection();
+				if (currentTool)
+					currentTool.onMouseDown(e);
+				if (selectTool)
+					selectTool.clearSelection();
 			});
 		}
 		// horizontal lines
@@ -92,7 +93,10 @@
 			var path = paper.path(hpath).attr(ToolbarConfig.grid);
 			path.mousedown(function(e) {
 				e.stopImmediatePropagation();
-				selectTool.clearSelection();
+				if (currentTool)
+					currentTool.onMouseDown(e);
+				if (selectTool)
+					selectTool.clearSelection();
 			});
 		}
 	};
@@ -113,8 +117,8 @@
 		deleteAction = new DeleteAction($, options);
 
 		addToolbarGroup($toolbar, [ selectTool, deleteAction, clearAction ]);
-		addToolbarGroup($toolbar, [ new RectangleTool($, options), new LineTool($, options), new CircleTool($, options), new PolygonTool($, options),
-				new ImageTool($, options), new TextTool($, options) ]);
+		addToolbarGroup($toolbar, [ new RectangleTool($, options), new LineTool($, options), new CircleTool($, options), new PathTool($, options),
+				new PolygonTool($, options), new ImageTool($, options), new TextTool($, options) ]);
 		addToolbarGroup($toolbar, [ new ColorAction($, options), new StrokeAction($, options) ]);
 		addToolbarGroup($toolbar, [ new ImportAction($, options), new ExportAction($, options), new SaveAction($, options) ]);
 		$this.before($toolbar);
@@ -159,7 +163,7 @@
 
 		$(btn).on('svge.addElement', onAddElement);
 		$(btn).on('svge.clearPaper', initGrid);
-		$(btn).on('svge.deleteSelection', function(){
+		$(btn).on('svge.deleteSelection', function() {
 			selectTool.deleteSelection();
 			selectTool.activate();
 		});
@@ -168,8 +172,12 @@
 	};
 
 	var onAddElement = function(e, element) {
-		if (element)
+		if (element) {
+			// les elements doivent ils ecouter leurs
+			// propres clicks ? ou bien on calcule l'élément lorsqu'on clique sur le canvas
+			// element.mousedown(selectTool.onMouseDown);
 			element.drag(selectTool.onMove, $.emptyFn, selectTool.onEnd);
+		}
 	};
 
 	/**

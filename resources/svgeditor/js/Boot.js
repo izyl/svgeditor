@@ -2,10 +2,7 @@ var Boot = {
 	onReady : function() {
 
 		$("#svgeditor").svgeditor({
-			onToolbarInitialized : function($toolbar) {
-			},
-			startCustomAction : function(action, plugin) {
-			}
+			initGrid : true
 		});
 
 		var secret = '';

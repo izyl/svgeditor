@@ -23,25 +23,19 @@ var DefaultToolbarItem = CClass.create(function($, options) {
 
 			me = this;
 			// this représente ici l'instance de l'objet enfant (par exemple rectangleTool)
-			options.$canvas.on("mousedown", function(e) {
-				me.onMouseDown(e);
-			});
+			options.$canvas.on("mousedown", me.onMouseDown);
+			options.$canvas.on("mousemove", me.onMouseMove);
+			options.$canvas.on("dblclick",me.onDblclick);
 
-			options.$canvas.on("mousemove", function(e) {
-				me.onMouseMove(e);
-			});
-
-			options.$canvas.on("mouseup", function(e) {
-				me.onMouseUp(e);
-			});
-
-			options.$canvas.on("dblclick", function(e) {
-				me.onDblclick(e);
-			});
+			$(document).on("mouseup", me.onMouseUp);
 		},
 
 		desactivate : function() {
-			options.$canvas.off();
+			options.$canvas.off("mousedown");
+			options.$canvas.off("mousemove");
+			options.$canvas.off("dblclick");
+
+			$(document).off("mouseup");
 		},
 
 		getBBoxCenter : function(bbox) {

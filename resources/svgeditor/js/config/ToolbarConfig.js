@@ -1,7 +1,7 @@
 ToolbarConfig = {
 
 	stroke : {
-		width : .5,
+		width : 1,
 		opacity : 1,
 		color : 'black'
 	},
@@ -21,7 +21,7 @@ ToolbarConfig = {
 	grid : {
 		"fill" : "#fff",
 		"stroke" : "#ccc",
-		"stroke-width" : 0.1,
+		"stroke-width" : 0.13,
 		"opacity" : 1
 	},
 
@@ -92,7 +92,7 @@ ToolbarConfig = {
 
 	TEXT_TOOL : {
 		TITLE : "Write some text",
-		ICON : "resources/svgeditor/img/TEXT.gif",
+		ICON : "resources/svgeditor/img/text.gif",
 	},
 
 	/** Les actions s'executent indépendamment du paper raphael et peuvent être appliquées même si un outil est en cours d'utilisation */

@@ -64,7 +64,7 @@ var SelectTool = DefaultToolbarItem.extend(function($, options) {
 				element.data("glow", glow);
 				glows.push(glow);
 				glow.drag(this.onMove, $.emptyFn, this.onEnd);
-				glow.mousemove(scaleBox);
+				//glow.mousemove(scaleBox);
 			}
 		}
 	}

@@ -62,9 +62,11 @@ var CircleTool = DefaultToolbarItem.extend(function($, options) {
 		},
 
 		onMouseUp : function(e) {
-			draw(e);
-			$this.trigger('svge.addElement', form);
-			form = null;
+			if (form) {
+				draw(e);
+				$this.trigger('svge.addElement', form);
+				form = null;
+			}
 		}
 	};
 });

@@ -45,15 +45,13 @@ var RectangleTool = DefaultToolbarItem.extend(function($, options) {
 	}
 
 	function setProps(props) {
-		if(form){
-			form.attr('x', props.x);
-			form.attr('y', props.y);
-			form.attr('width', props.width);
-			form.attr('height', props.height);
-			form.attr("fill", options.fill.color);
-			form.attr("stroke", options.stroke.color);
-			form.attr("stroke-width", options.stroke.width);
-		}
+		form.attr('x', props.x);
+		form.attr('y', props.y);
+		form.attr('width', props.width);
+		form.attr('height', props.height);
+		form.attr("fill", options.fill.color);
+		form.attr("stroke", options.stroke.color);
+		form.attr("stroke-width", options.stroke.width);
 	}
 
 	function draw(e) {
@@ -74,20 +72,20 @@ var RectangleTool = DefaultToolbarItem.extend(function($, options) {
 		icon : ToolbarConfig.RECTANGLE_TOOL.ICON,
 
 		onMouseDown : function(e) {
-			form = null;
 			start(e);
 		},
 
 		onMouseMove : function(e) {
-			if (form) {
+			if (form)
 				draw(e);
-			}
 		},
 
 		onMouseUp : function(e) {
-			draw(e);
-			$this.trigger('svge.addElement', form);
-			form = null;
+			if (form){
+				draw(e);
+				$this.trigger('svge.addElement', form);
+				form = null;
+			}
 		}
 	};
 });
