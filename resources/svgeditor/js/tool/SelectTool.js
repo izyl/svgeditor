@@ -1,11 +1,11 @@
-var SelectTool = DefaultToolbarItem.extend(function($, options) {
+var SelectTool = Tool.extend(function($, context) {
 
-	this._super($, options);
+	this._super($, context);
 
 	// privates
 	var me = this;
-	var elements = options.paper.set();
-	var glows = options.paper.set();
+	var elements = context.paper.set();
+	var glows = context.paper.set();
 
 	function applyTransfo(set) {
 
@@ -37,40 +37,27 @@ var SelectTool = DefaultToolbarItem.extend(function($, options) {
 				return false;
 			}
 		});
-		if (!found) {
-			glows.forEach(function(glow) {
-				glow.forEach(function(elem) {
-					if (elem.id == element.id) {
-						found = true;
-						return false;
-					}
-				});
-			});
-		}
 
 		return found;
 	}
 
-	function select(e) {
-		element = options.paper.getElementByPoint(e.pageX, e.pageY);
-		if (!element) {
-			me.clearSelection();
-		} else if (isElementSelected(element)) {
-			// unselect(element);
-		} else if (element) {
+	function addGlow(element) {
+		var glow = element.glow(ToolbarConfig.glow);
+		element.data("glow", glow);
+		glows.push(glow);
+		// glow.mousemove(scaleBox);
+	}
+
+	function select(element) {
+		if (!isElementSelected(element)) {
+			console.log("add", element);
 			elements.push(element);
-			if (!element.data("glow")) {
-				var glow = element.glow(ToolbarConfig.glow);
-				element.data("glow", glow);
-				glows.push(glow);
-				glow.drag(this.onMove, $.emptyFn, this.onEnd);
-				//glow.mousemove(scaleBox);
-			}
+			addGlow(element);
 		}
 	}
 
 	var scaleBox = function(e) {
-		var element = options.paper.getElementByPoint(e.pageX, e.pageY);
+		var element = context.paper.getElementByPoint(e.pageX, e.pageY);
 		if (isElementSelected(element)) {
 
 			var bbox = element.getBBox();
@@ -86,7 +73,7 @@ var SelectTool = DefaultToolbarItem.extend(function($, options) {
 			// ça va pas marcher .. TODO : calcul du sens de la double fleche
 			if (angle > 5 && angle < 35) {
 				glow.attr('cursor', 'n-resize');
-			} else if (angle >= 35 && angle <= 40) {
+			} else if (angle >= 35 && angle <= 50) {
 				glow.attr('cursor', 'ne-resize');
 			} else if (angle > 40 && angle < 60) {
 				glow.attr('cursor', 'e-resize');
@@ -102,17 +89,18 @@ var SelectTool = DefaultToolbarItem.extend(function($, options) {
 				glow.attr('cursor', 'nw-resize');
 			}
 		}
-	};
+	}
 
-	// function unselect(element) {
-	// elements.exclude(element);
-	// // var bbox = element.data("bbox");
-	// // bboxs.exclude(bbox);
-	// // bbox.remove();
-	// var glow = element.data("glow");
-	// glows.exclude(glow);
-	// glow.remove();
-	// }
+	function unselect(element) {
+		elements.exclude(element);
+		// var bbox = element.data("bbox");
+		// bboxs.exclude(bbox);
+		// bbox.remove();
+		var glow = element.data("glow");
+		glows.exclude(glow);
+		glows.undrag();
+		glow.remove();
+	}
 
 	// public
 	return {
@@ -150,17 +138,19 @@ var SelectTool = DefaultToolbarItem.extend(function($, options) {
 			}
 		},
 
+		onSelect : function(e) {
+			if (me.active) {
+				e.stopImmediatePropagation();
+				select(this);
+			}
+		},
+
 		onMouseDown : function(e) {
-			select(e);
+			me.clearSelection();
 		},
 
-		getSelectionStyle : function() {
-			return selectionStyle;
-		},
-
-//		desactivate : function() {
-//			this._super();
-//			this.clearSelection();
-//		}
+		onDblClick : function(e) {
+			console.log("open properties dialog");
+		}
 	};
 });

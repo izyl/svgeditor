@@ -1,6 +1,6 @@
-var ColorAction = DefaultToolbarItem.extend(function($, options) {
+var ColorAction = Action.extend(function($, context) {
 
-	this._super($, options);
+	this._super($, context);
 	// public
 	return {
 

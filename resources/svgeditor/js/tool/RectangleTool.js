@@ -1,6 +1,6 @@
-var RectangleTool = DefaultToolbarItem.extend(function($, options) {
+var RectangleTool = Tool.extend(function($, context) {
 
-	this._super($, options);
+	this._super($, context);
 
 	// privates
 	var me = this;
@@ -49,9 +49,9 @@ var RectangleTool = DefaultToolbarItem.extend(function($, options) {
 		form.attr('y', props.y);
 		form.attr('width', props.width);
 		form.attr('height', props.height);
-		form.attr("fill", options.fill.color);
-		form.attr("stroke", options.stroke.color);
-		form.attr("stroke-width", options.stroke.width);
+		form.attr("fill", context.fill.color);
+		form.attr("stroke", context.stroke.color);
+		form.attr("stroke-width", context.stroke.width);
 	}
 
 	function draw(e) {
@@ -62,7 +62,7 @@ var RectangleTool = DefaultToolbarItem.extend(function($, options) {
 
 	function start(e) {
 		firstPoint = me.getMousePosition(e);
-		form = options.paper.rect(firstPoint.x, firstPoint.y, 0, 0);
+		form = context.paper.rect(firstPoint.x, firstPoint.y, 0, 0);
 	}
 
 	// public

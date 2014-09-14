@@ -1,6 +1,6 @@
-var ImageTool = DefaultToolbarItem.extend(function($, options) {
+var ImageTool = Tool.extend(function($, context) {
 
-	this._super($, options);
+	this._super($, context);
 
 	// public
 	return {

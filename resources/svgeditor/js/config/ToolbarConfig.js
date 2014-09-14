@@ -1,3 +1,4 @@
+/** Tout ce qui est configurable */
 ToolbarConfig = {
 
 	stroke : {
@@ -28,14 +29,17 @@ ToolbarConfig = {
 	gridCellSize : 25,
 
 	/**
-	 * on fait la présentation avec Bootstrap ui : on va la centraliser ici pour faire abstraction de la couche de présentation il faudrait écrire dans un objet
-	 * de config toutes les classes bootstrap utilisées dans les toolbaritems et dépacler le contenu bootsrap qui se trouve ici avec
+	 * on fait la présentation avec Bootstrap ui : on va la centraliser ici pour faire abstraction
+	 * de la couche de présentation il faudrait écrire dans un objet de config toutes les classes
+	 * bootstrap utilisées dans les toolbaritems et dépacler le contenu bootsrap qui se trouve ici
+	 * avec
 	 */
 	TEMPLATE_CANVAS : '<div class="panel panel-default canvas"></div>',
 	TEMPLATE_TOOLBAR : '<div class="btn-toolbar" role="toolbar"></div>',
 	TEMPLATE_TOOLBARGROUP : '<div class="btn-group"></div>',
 	TEMPLATE_BUTTON : '<a class="btn btn-default" data-toggle="tooltip" data-placement="left" data-toggle="confirmation" type="button" ></a>',
-	// j'utilise des img car les icones graphiques que je veux ne sont pas dans les Glyphicons de bootstrap = http=//getbootstrap.com/components/#glyphicons
+	// j'utilise des img car les icones graphiques que je veux ne sont pas dans les Glyphicons de
+	// bootstrap = http=//getbootstrap.com/components/#glyphicons
 	TEMPLATE_IMG : '<img class="media-object">',
 	TEMPLATE_MODAL : '<div class="modal fade">' + '<div class="modal-dialog">' + '<div class="modal-content">' + '<div class="modal-header waning">'
 			+ '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times,</span><span class="sr-only">Close</span></button>'
@@ -44,7 +48,7 @@ ToolbarConfig = {
 			+ '<button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>' + '</div>' + '</div>' + '</div>' + '</div>',
 	TEMPLATE_ALERT : '<div class="alert alert-info"> <a class="close" href="#" data-dismiss="alert">&times,</a> <span class="contentspan"></span></div>',
 
-	/** TOOLS héritent de DefaultToolbarItem, ils manipulent le canvas, 1 seul outil actif à la fois */
+	/** TOOLS héritent de Tool, ils manipulent le canvas, 1 seul outil actif à la fois */
 	SELECT_TOOL : {
 		TITLE : "Select an element",
 		ICON : "resources/svgeditor/img/select.gif"
@@ -95,7 +99,10 @@ ToolbarConfig = {
 		ICON : "resources/svgeditor/img/text.gif",
 	},
 
-	/** Les actions s'executent indépendamment du paper raphael et peuvent être appliquées même si un outil est en cours d'utilisation */
+	/**
+	 * Les actions s'executent indépendamment du paper raphael et peuvent être appliquées même si un
+	 * outil est en cours d'utilisation
+	 */
 	CLEAR_ACTION : {
 		TITLE : "Clear scene",
 		ICON : "resources/svgeditor/img/arrow_rotate_clockwise.png",

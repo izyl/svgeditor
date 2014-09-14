@@ -4,14 +4,17 @@
 	var $this;
 	var $settings;
 
+	/** Important : préfixer les objets jQuery par $, sinon c'est le bordel */
+	/** Tous les elements graphique dynamiques */
 	var $canvas = $(ToolbarConfig.TEMPLATE_CANVAS);
+	var $alert = $(ToolbarConfig.TEMPLATE_ALERT);
+	var $modal = $(ToolbarConfig.TEMPLATE_MODAL);
 	var toolbarTemplate = ToolbarConfig.TEMPLATE_TOOLBAR;
 	var toolbarGroupTemplate = ToolbarConfig.TEMPLATE_TOOLBARGROUP;
 	var buttonTemplate = ToolbarConfig.TEMPLATE_BUTTON;
 	var imgTemplate = ToolbarConfig.TEMPLATE_IMG;
-	var $alert = $(ToolbarConfig.TEMPLATE_ALERT);
-	var $modal = $(ToolbarConfig.TEMPLATE_MODAL);
 
+	/** la feuille de papier raphael */
 	var paper;
 
 	var stroke = ToolbarConfig.stroke;
@@ -78,26 +81,12 @@
 		// déclencherait pas la déselection
 		for (var x = ($canvas.offset().left % ToolbarConfig.gridCellSize); x < $canvas.width(); x += ToolbarConfig.gridCellSize) {
 			var vpath = "M " + x + " 0 l 0 " + $canvas.height() + " z";
-			var path = paper.path(vpath).attr(ToolbarConfig.grid);
-			path.mousedown(function(e) {
-				e.stopImmediatePropagation();
-				if (currentTool)
-					currentTool.onMouseDown(e);
-				if (selectTool)
-					selectTool.clearSelection();
-			});
+			paper.path(vpath).attr(ToolbarConfig.grid);
 		}
 		// horizontal lines
 		for (var y = ($canvas.offset().top % ToolbarConfig.gridCellSize); y < $canvas.height(); y += ToolbarConfig.gridCellSize) {
 			var hpath = "M 0 " + y + " l " + $canvas.width() + " 0 z";
-			var path = paper.path(hpath).attr(ToolbarConfig.grid);
-			path.mousedown(function(e) {
-				e.stopImmediatePropagation();
-				if (currentTool)
-					currentTool.onMouseDown(e);
-				if (selectTool)
-					selectTool.clearSelection();
-			});
+			paper.path(hpath).attr(ToolbarConfig.grid);
 		}
 	};
 
@@ -109,8 +98,7 @@
 			$modal : $modal,
 			paper : paper,
 			stroke : stroke,
-			fill : fill,
-			editor : this
+			fill : fill
 		};
 		selectTool = new SelectTool($, options);
 		clearAction = new ClearAction($, options);
@@ -124,46 +112,46 @@
 		$this.before($toolbar);
 	};
 
-	var addToolbarGroup = function($toolbar, btns) {
+	var addToolbarGroup = function($toolbar, tools) {
 
 		var $group = $(toolbarGroupTemplate);
-		for (btn in btns) {
-			$group.append(buildButton(btns[btn]));
+		for (tool in tools) {
+			$group.append(buildButton(tools[tool]));
 		}
 		$toolbar.append($group);
 	};
 
-	var buildButton = function(btn) {
+	var buildButton = function(tool) {
 		var $button = $(buttonTemplate);
 
-		if (btn.cls) {
-			$button.addClass(btn.cls);
+		if (tool.cls) {
+			$button.addClass(tool.cls);
 		}
 
-		if (btn.title)
+		if (tool.title)
 			$button.attr({
-				title : btn.title
+				title : tool.title
 			});
 
-		if (btn.text)
-			$button.text(btn.text);
+		if (tool.text)
+			$button.text(tool.text);
 
-		if (btn.icon) {
-			$button.append($(imgTemplate).attr('src', btn.icon).attr('alt', btn.title));
+		if (tool.icon) {
+			$button.append($(imgTemplate).attr('src', tool.icon).attr('alt', tool.title));
 		}
 
 		$button.on('click', function(e) {
 			if (currentTool) {
 				currentTool.desactivate();
 			}
-			currentTool = btn;
+			currentTool = tool;
 			currentTool.activate();
 			selectTool.clearSelection();
 		});
 
-		$(btn).on('svge.addElement', onAddElement);
-		$(btn).on('svge.clearPaper', initGrid);
-		$(btn).on('svge.deleteSelection', function() {
+		$(tool).on('svge.addElement', onAddElement);
+		$(tool).on('svge.clearPaper', initGrid);
+		$(tool).on('svge.deleteSelection', function() {
 			selectTool.deleteSelection();
 			selectTool.activate();
 		});
@@ -173,10 +161,9 @@
 
 	var onAddElement = function(e, element) {
 		if (element) {
-			// les elements doivent ils ecouter leurs
-			// propres clicks ? ou bien on calcule l'élément lorsqu'on clique sur le canvas
-			// element.mousedown(selectTool.onMouseDown);
 			element.drag(selectTool.onMove, $.emptyFn, selectTool.onEnd);
+			element.mousedown(selectTool.onSelect);
+			element.dblclick(selectTool.onDblClick);
 		}
 	};
 

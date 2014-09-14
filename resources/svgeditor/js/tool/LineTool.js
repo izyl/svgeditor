@@ -1,6 +1,6 @@
-var LineTool = DefaultToolbarItem.extend(function($, options) {
+var LineTool = Tool.extend(function($, context) {
 
-	this._super($, options);
+	this._super($, context);
 
 	// privates
 	var me = this;
@@ -11,7 +11,7 @@ var LineTool = DefaultToolbarItem.extend(function($, options) {
 
 	function start(e) {
 		firstPoint = me.getMousePosition(e);
-		form = options.paper.path("M" + firstPoint.x + "," + firstPoint.y);
+		form = context.paper.path("M" + firstPoint.x + "," + firstPoint.y);
 	}
 
 	function getLinePath(firstPoint, secondPoint) {
@@ -22,9 +22,9 @@ var LineTool = DefaultToolbarItem.extend(function($, options) {
 		var linePath = getLinePath(firstPoint, secondPoint);
 		form.attr({
 			'path' : linePath,
-			"fill" : options.fill.color,
-			"stroke" : options.stroke.color,
-			"stroke-width" : options.stroke.width
+			"fill" : context.fill.color,
+			"stroke" : context.stroke.color,
+			"stroke-width" : context.stroke.width,
 		});
 	}
 

@@ -1,6 +1,6 @@
-var PolygonTool = DefaultToolbarItem.extend(function($, options) {
+var PolygonTool = Tool.extend(function($, context) {
 
-	this._super($, options);
+	this._super($, context);
 
 	// privates
 	var me = this;
@@ -22,10 +22,10 @@ var PolygonTool = DefaultToolbarItem.extend(function($, options) {
 
 		if (points.length == 1) {
 			path = "M" + point.x + ',' + point.y;
-			form = options.paper.path(path);
-			form.attr("fill", options.fill.color);
-			form.attr("stroke", options.stroke.color);
-			form.attr("stroke-width", options.stroke.width);
+			form = context.paper.path(path);
+			form.attr("fill", context.fill.color);
+			form.attr("stroke", context.stroke.color);
+			form.attr("stroke-width", context.stroke.width);
 			form.attr('path', path);
 		} else if (points.length > 1) {
 			path = path + 'L' + point.x + ',' + point.y;

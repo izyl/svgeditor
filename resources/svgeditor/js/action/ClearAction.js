@@ -1,28 +1,25 @@
-var ClearAction = DefaultToolbarItem.extend(function($, options, editor) {
+var ClearAction = Action.extend(function($, context) {
 
-	this._super($, options);
-
+	this._super($, context);
 	// privates
 	$this = $(this);
-	
 	// public
 	return {
 
 		title : ToolbarConfig.CLEAR_ACTION.TITLE,
 		icon : ToolbarConfig.CLEAR_ACTION.ICON,
 		cls : ToolbarConfig.CLEAR_ACTION.CLS,
-
 		
 		activate : function() {
-
-			options.$modal.find('.modal-title').text('Confirmation');
-			options.$modal.find('.modal-body p').text('Every elements will be deleted, are you sure?');
-			options.$modal.find('.btn-default').text('Cancel');
-			options.$modal.find('.btn-primary').text('OK').on('click', function(e) {
-				options.paper.clear();
+			
+			context.$modal.find('.modal-title').text('Confirmation');
+			context.$modal.find('.modal-body p').text('Every elements will be deleted, are you sure?');
+			context.$modal.find('.btn-default').text('Cancel');
+			context.$modal.find('.btn-primary').text('OK').on('click', function(e) {
+				context.paper.clear();
 				$this.trigger('svge.clearPaper');
 			});
-			options.$modal.modal({
+			context.$modal.modal({
 				title : 'bla'
 			});
 		}

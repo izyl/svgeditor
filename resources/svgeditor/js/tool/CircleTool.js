@@ -1,6 +1,6 @@
-var CircleTool = DefaultToolbarItem.extend(function($, options) {
+var CircleTool = Tool.extend(function($, context) {
 
-	this._super($, options);
+	this._super($, context);
 	var $this = $(this);
 
 	// privates
@@ -29,7 +29,7 @@ var CircleTool = DefaultToolbarItem.extend(function($, options) {
 
 	function start(e) {
 		center = me.getMousePosition(e);
-		form = options.paper.circle(center.x, center.y, 0);
+		form = context.paper.circle(center.x, center.y, 0);
 	}
 
 	function draw(e) {
@@ -41,8 +41,9 @@ var CircleTool = DefaultToolbarItem.extend(function($, options) {
 		form.attr('x', center.x);
 		form.attr('y', center.y);
 		form.attr('r', r);
-		form.attr("fill", options.fill.color);
-		form.attr("stroke", options.stroke.color);
+		form.attr("fill", context.fill.color);
+		form.attr("stroke", context.stroke.color);
+		form.attr("stroke-width", context.stroke.width);
 	}
 
 	// Public

@@ -1,6 +1,6 @@
-var ImportAction = DefaultToolbarItem.extend(function($, options) {
+var ImportAction = Action.extend(function($, context) {
 
-	this._super($, options);
+	this._super($, context);
 
 	// public
 	return {

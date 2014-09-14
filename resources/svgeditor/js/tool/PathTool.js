@@ -1,6 +1,6 @@
-var PathTool = DefaultToolbarItem.extend(function($, options) {
+var PathTool = Tool.extend(function($, context) {
 
-	this._super($, options);
+	this._super($, context);
 
 	// privates
 	var me = this;
@@ -17,10 +17,10 @@ var PathTool = DefaultToolbarItem.extend(function($, options) {
 	function start(e) {
 		var point = me.getMousePosition(e);
 		path = "M" + point.x + ',' + point.y;
-		form = options.paper.path(path);
-		form.attr("fill", options.fill.color);
-		form.attr("stroke", options.stroke.color);
-		form.attr("stroke-width", options.stroke.width);
+		form = context.paper.path(path);
+		form.attr("fill", context.fill.color);
+		form.attr("stroke", context.stroke.color);
+		form.attr("stroke-width", context.stroke.width);
 	}
 
 	function end(e) {

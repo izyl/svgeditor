@@ -1,9 +1,16 @@
-var DeleteAction = DefaultToolbarItem.extend(function($, options) {
+var DeleteAction = Action.extend(function($, context) {
 
-	this._super($, options);
+	var KEYCODE_DELETE = 46;
+
+	this._super($, context);
 
 	// privates
 	$this = $(this);
+	$("body").keydown(function(e) {
+		if (KEYCODE_DELETE == e.keyCode) {
+			$this.trigger('svge.deleteSelection');
+		}
+	});
 
 	// public
 	return {

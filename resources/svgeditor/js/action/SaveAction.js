@@ -1,6 +1,6 @@
-var SaveAction = DefaultToolbarItem.extend(function($, options) {
+var SaveAction = Action.extend(function($, context) {
 
-	this._super($, options);
+	this._super($, context);
 
 	// Return an object exposed to the public
 	return {
@@ -13,15 +13,15 @@ var SaveAction = DefaultToolbarItem.extend(function($, options) {
 			// $.ajax
 
 			// puis affichage du résulat
-			var _alert = options.$alert.clone();
+			var _alert = context.$alert.clone();
 			_alert.addClass('alert alert-info');
-			_alert.find('.contentspan').text(options.paper.toSVG());
-			options.$canvas.after(_alert);
+			_alert.find('.contentspan').text(context.paper.toSVG());
+			context.$canvas.after(_alert);
 
-			_alert = options.$alert.clone();
+			_alert = context.$alert.clone();
 			_alert.addClass('alert alert-success notifications');
 			_alert.find('.contentspan').text('Your work has been successfully saved');
-			options.$canvas.before(_alert);
+			context.$canvas.before(_alert);
 			_alert.fadeOut(2000);
 		}
 
