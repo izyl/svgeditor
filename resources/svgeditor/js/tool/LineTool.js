@@ -7,10 +7,11 @@ var LineTool = DefaultToolbarItem.extend(function($, options) {
 	var $this = $(this);
 	var firstPoint = null;
 	var secondPoint = null;
+	var form;
 
 	function start(e) {
 		firstPoint = me.getMousePosition(e);
-		options.form = options.paper.path("M" + firstPoint.x + "," + firstPoint.y);
+		form = options.paper.path("M" + firstPoint.x + "," + firstPoint.y);
 	}
 
 	function getLinePath(firstPoint, secondPoint) {
@@ -19,10 +20,12 @@ var LineTool = DefaultToolbarItem.extend(function($, options) {
 	function draw(e) {
 		secondPoint = me.getMousePosition(e);
 		var linePath = getLinePath(firstPoint, secondPoint);
-		options.form.attr('path', linePath);
-		options.form.attr("fill", options.fill.color);
-		options.form.attr("stroke", options.stroke.color);
-		options.form.attr("stroke-width", options.stroke.width);
+		form.attr({
+			'path' : linePath,
+			"fill" : options.fill.color,
+			"stroke" : options.stroke.color,
+			"stroke-width" : options.stroke.width
+		});
 	}
 
 	// Public
@@ -36,16 +39,15 @@ var LineTool = DefaultToolbarItem.extend(function($, options) {
 		},
 
 		onMouseMove : function(e) {
-			if (options.form) {
+			if (form) {
 				draw(e);
 			}
-			;
 		},
 
 		onMouseUp : function(e) {
 			draw(e);
-			$this.trigger('svge.addElement', options.form);
-			options.form = null;
+			$this.trigger('svge.addElement', form);
+			form = null;
 		}
 	};
 });

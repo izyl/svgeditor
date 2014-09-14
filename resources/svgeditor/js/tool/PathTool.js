@@ -7,26 +7,27 @@ var PathTool = DefaultToolbarItem.extend(function($, options) {
 	var $this = $(this);
 	var path = "";
 	var isDrawing = false;
+	var form;
 
 	function draw(e) {
 		var point = me.getMousePosition(e);
 		path += 'L' + point.x + ',' + point.y;
-		options.form.attr('path', path);
+		form.attr('path', path);
 	}
 
 	function start(e) {
 		isDrawing = true;
 		var point = me.getMousePosition(e);
 		path = "M" + point.x + ',' + point.y;
-		options.form = options.paper.path(path);
-		options.form.attr("fill", options.fill.color);
-		options.form.attr("stroke", options.stroke.color);
-		options.form.attr("stroke-width", options.stroke.width);
+		form = options.paper.path(path);
+		form.attr("fill", options.fill.color);
+		form.attr("stroke", options.stroke.color);
+		form.attr("stroke-width", options.stroke.width);
 	}
 
 	function end(e) {
 		path += 'z';
-		options.form.attr('path', path);
+		form.attr('path', path);
 	}
 
 	// public
@@ -52,7 +53,8 @@ var PathTool = DefaultToolbarItem.extend(function($, options) {
 
 		onDblclick : function(e) {
 			end(e);
-			$this.trigger('svge.addElement', options.form);
+			$this.trigger('svge.addElement', form);
+			form = null;
 		}
 	};
 });

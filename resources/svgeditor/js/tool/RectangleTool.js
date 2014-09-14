@@ -7,6 +7,7 @@ var RectangleTool = DefaultToolbarItem.extend(function($, options) {
 	var $this = $(this);
 	var firstPoint = null;
 	var secondPoint = null;
+	var form;
 
 	function getProperties(pointA, pointB) {
 
@@ -44,13 +45,15 @@ var RectangleTool = DefaultToolbarItem.extend(function($, options) {
 	}
 
 	function setProps(props) {
-		options.form.attr('x', props.x);
-		options.form.attr('y', props.y);
-		options.form.attr('width', props.width);
-		options.form.attr('height', props.height);
-		options.form.attr("fill", options.fill.color);
-		options.form.attr("stroke", options.stroke.color);
-		options.form.attr("stroke-width", options.stroke.width);
+		if(form){
+			form.attr('x', props.x);
+			form.attr('y', props.y);
+			form.attr('width', props.width);
+			form.attr('height', props.height);
+			form.attr("fill", options.fill.color);
+			form.attr("stroke", options.stroke.color);
+			form.attr("stroke-width", options.stroke.width);
+		}
 	}
 
 	function draw(e) {
@@ -61,7 +64,7 @@ var RectangleTool = DefaultToolbarItem.extend(function($, options) {
 
 	function start(e) {
 		firstPoint = me.getMousePosition(e);
-		options.form = options.paper.rect(firstPoint.x, firstPoint.y, 0, 0);
+		form = options.paper.rect(firstPoint.x, firstPoint.y, 0, 0);
 	}
 
 	// public
@@ -71,19 +74,20 @@ var RectangleTool = DefaultToolbarItem.extend(function($, options) {
 		icon : ToolbarConfig.RECTANGLE_TOOL.ICON,
 
 		onMouseDown : function(e) {
+			form = null;
 			start(e);
 		},
 
 		onMouseMove : function(e) {
-			if (options.form) {
+			if (form) {
 				draw(e);
 			}
 		},
 
 		onMouseUp : function(e) {
 			draw(e);
-			$this.trigger('svge.addElement', options.form);
-			options.form = null;
+			$this.trigger('svge.addElement', form);
+			form = null;
 		}
 	};
 });

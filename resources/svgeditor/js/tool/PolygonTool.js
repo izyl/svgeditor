@@ -9,16 +9,17 @@ var PolygonTool = DefaultToolbarItem.extend(function($, options) {
 	var path = null;
 	var isDrawing = false;
 	var tmpPath = null;
-
+	var form;
+	
 	function draw() {
-		options.form.attr('path', path);
+		form.attr('path', path);
 	}
 
 	function addTmpPoint(e) {
 		if (isDrawing) {
 			var point = me.getMousePosition(e);
 			tmpPath = path + 'L' + point.x + ',' + point.y + 'L' + points[0].x + ',' + points[0].y + 'z';
-			options.form.attr('path', tmpPath);
+			form.attr('path', tmpPath);
 		}
 	}
 
@@ -29,10 +30,10 @@ var PolygonTool = DefaultToolbarItem.extend(function($, options) {
 
 		if (points.length == 1) {
 			path = "M" + point.x + ',' + point.y;
-			options.form = options.paper.path(path);
-			options.form.attr("fill", options.fill.color);
-			options.form.attr("stroke", options.stroke.color);
-			options.form.attr("stroke-width", options.stroke.width);
+			form = options.paper.path(path);
+			form.attr("fill", options.fill.color);
+			form.attr("stroke", options.stroke.color);
+			form.attr("stroke-width", options.stroke.width);
 			draw();
 		} else if (points.length > 1) {
 			path = path + 'L' + point.x + ',' + point.y;
@@ -42,9 +43,11 @@ var PolygonTool = DefaultToolbarItem.extend(function($, options) {
 
 	// close the polygon
 	function end(e) {
-		options.form.attr('path', tmpPath);
-
+		form.attr('path', tmpPath);
+		$this.trigger('svge.addElement', form);
+		
 		// prepare for a new polygon
+		form = null;
 		points = [];
 		isDrawing = false;
 	}
@@ -65,7 +68,17 @@ var PolygonTool = DefaultToolbarItem.extend(function($, options) {
 
 		onDblclick : function(e) {
 			end(e);
-			$this.trigger('svge.addElement', options.form);
+		},
+		
+		desactivate: function(){
+			me._super();
+			
+			if(isDrawing){
+				form.remove();
+			}
+			form = null;
+			points = [];
+			isDrawing = false;
 		}
 	};
 });

@@ -44,12 +44,28 @@ var DefaultToolbarItem = CClass.create(function($, options) {
 			options.$canvas.off();
 		},
 
+		getBBoxCenter : function(bbox) {
+			var center = {};
+			center.x = (bbox.x2 - bbox.x) / 2 + bbox.x;
+			center.y = (bbox.y2 - bbox.y) / 2 + bbox.y;
+			return center;
+		},
+
+		getRelativePosition : function(x, y) {
+			var offset = options.$canvas.offset();
+			var relativePoint = {};
+			relativePoint.x = x + offset.left;
+			relativePoint.y = y + offset.top;
+
+			return relativePoint;
+		},
+
 		getMousePosition : function(e) {
 			var offset = options.$canvas.offset();
 			var point = {};
 
-			point.x = e.pageX - (offset.left);
-			point.y = e.pageY - (offset.top);
+			point.x = e.pageX - offset.left;
+			point.y = e.pageY - offset.top;
 
 			return point;
 		}

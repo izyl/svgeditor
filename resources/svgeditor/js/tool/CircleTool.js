@@ -7,6 +7,7 @@ var CircleTool = DefaultToolbarItem.extend(function($, options) {
 	var me = this;
 	var center = 0;
 	var r = 0;
+	var form;
 
 	function getDistance(point1, point2) {
 		var xs = 0;
@@ -28,7 +29,7 @@ var CircleTool = DefaultToolbarItem.extend(function($, options) {
 
 	function start(e) {
 		center = me.getMousePosition(e);
-		options.form = options.paper.circle(center.x, center.y, 0);
+		form = options.paper.circle(center.x, center.y, 0);
 	}
 
 	function draw(e) {
@@ -37,11 +38,11 @@ var CircleTool = DefaultToolbarItem.extend(function($, options) {
 	}
 
 	function drawCircle() {
-		options.form.attr('x', center.x);
-		options.form.attr('y', center.y);
-		options.form.attr('r', r);
-		options.form.attr("fill", options.fill.color);
-		options.form.attr("stroke", options.stroke.color);
+		form.attr('x', center.x);
+		form.attr('y', center.y);
+		form.attr('r', r);
+		form.attr("fill", options.fill.color);
+		form.attr("stroke", options.stroke.color);
 	}
 
 	// Public
@@ -55,15 +56,15 @@ var CircleTool = DefaultToolbarItem.extend(function($, options) {
 		},
 
 		onMouseMove : function(e) {
-			if (options.form) {
+			if (form) {
 				draw(e);
 			}
 		},
 
 		onMouseUp : function(e) {
 			draw(e);
-			$this.trigger('svge.addElement', options.form);
-			options.form = null;
+			$this.trigger('svge.addElement', form);
+			form = null;
 		}
 	};
 });

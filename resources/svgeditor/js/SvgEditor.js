@@ -16,8 +16,11 @@
 
 	var stroke = ToolbarConfig.stroke;
 	var fill = ToolbarConfig.fill;
-	var selectedTool;
-	var selectToolInstance;
+	var currentTool;
+
+	var selectTool;
+	var clearAction;
+	var deleteAction;
 
 	var methods = {
 		init : function(options) {
@@ -52,10 +55,6 @@
 		}
 	};
 
-	var addElement = function(e, element) {
-		element.drag(selectToolInstance.onMove, $.emptyFn, selectToolInstance.onEnd);
-	};
-
 	var buildUi = function($this) {
 		initCanvas($this);
 		initGrid($this);
@@ -76,20 +75,24 @@
 
 	var initGrid = function() {
 
-		// vertical lines
+		// On ne veut pas que les clicks sur les lignes de la grille soient propagés : sinon elle
+		// serait selectionnable au meme titre que les autres éléments -> cliquer sur une case ne
+		// déclencherait pas la déselection
 		for (var x = ($canvas.offset().left % ToolbarConfig.gridCellSize); x < $canvas.width(); x += ToolbarConfig.gridCellSize) {
 			var vpath = "M " + x + " 0 l 0 " + $canvas.height() + " z";
 			var path = paper.path(vpath).attr(ToolbarConfig.grid);
-			$(path).on('click', function(e) {
-				event.preventDefault();
+			path.mousedown(function(e) {
+				e.stopImmediatePropagation();
+				selectTool.clearSelection();
 			});
 		}
 		// horizontal lines
 		for (var y = ($canvas.offset().top % ToolbarConfig.gridCellSize); y < $canvas.height(); y += ToolbarConfig.gridCellSize) {
 			var hpath = "M 0 " + y + " l " + $canvas.width() + " 0 z";
-			paper.path(hpath).attr(ToolbarConfig.grid);
-			$(path).on('click', function(e) {
-				event.preventDefault();
+			var path = paper.path(hpath).attr(ToolbarConfig.grid);
+			path.mousedown(function(e) {
+				e.stopImmediatePropagation();
+				selectTool.clearSelection();
 			});
 		}
 	};
@@ -105,8 +108,11 @@
 			fill : fill,
 			editor : this
 		};
-		selectToolInstance = new SelectTool($, options);
-		addToolbarGroup($toolbar, [ selectToolInstance, new DeleteAction($, options), new ClearAction($, options) ]);
+		selectTool = new SelectTool($, options);
+		clearAction = new ClearAction($, options);
+		deleteAction = new DeleteAction($, options);
+
+		addToolbarGroup($toolbar, [ selectTool, deleteAction, clearAction ]);
 		addToolbarGroup($toolbar, [ new RectangleTool($, options), new LineTool($, options), new CircleTool($, options), new PolygonTool($, options),
 				new ImageTool($, options), new TextTool($, options) ]);
 		addToolbarGroup($toolbar, [ new ColorAction($, options), new StrokeAction($, options) ]);
@@ -143,16 +149,27 @@
 		}
 
 		$button.on('click', function(e) {
-			if (selectedTool) {
-				selectedTool.desactivate();
+			if (currentTool) {
+				currentTool.desactivate();
 			}
-			selectedTool = btn;
-			selectedTool.activate();
+			currentTool = btn;
+			currentTool.activate();
+			selectTool.clearSelection();
 		});
 
-		$(btn).on('svge.addElement', addElement);
+		$(btn).on('svge.addElement', onAddElement);
+		$(btn).on('svge.clearPaper', initGrid);
+		$(btn).on('svge.deleteSelection', function(){
+			selectTool.deleteSelection();
+			selectTool.activate();
+		});
 
 		return $button;
+	};
+
+	var onAddElement = function(e, element) {
+		if (element)
+			element.drag(selectTool.onMove, $.emptyFn, selectTool.onEnd);
 	};
 
 	/**

@@ -3,8 +3,8 @@ var ClearAction = DefaultToolbarItem.extend(function($, options, editor) {
 	this._super($, options);
 
 	// privates
-	var me = this;
-
+	$this = $(this);
+	
 	// public
 	return {
 
@@ -20,6 +20,7 @@ var ClearAction = DefaultToolbarItem.extend(function($, options, editor) {
 			options.$modal.find('.btn-default').text('Cancel');
 			options.$modal.find('.btn-primary').text('OK').on('click', function(e) {
 				options.paper.clear();
+				$this.trigger('svge.clearPaper');
 			});
 			options.$modal.modal({
 				title : 'bla'
