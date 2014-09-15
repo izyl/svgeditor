@@ -64,7 +64,8 @@ var SelectTool = Tool.extend(function($, context) {
 			var center = me.getBBoxCenter(bbox);
 			var cursor = me.getMousePosition(e);
 
-			// angle formé des 3 points dans l'ordre : coin supérieur gauche de la bbox, centre de
+			// angle formé des 3 points dans l'ordre : coin supérieur gauche de la bbox,
+			// centre de
 			// la bbox, curseur
 			var angle = Raphael.angle(bbox.x, bbox.y, cursor.x, cursor.y, center.x, center.y);
 			var glow = element.data("glow") ? element.data("glow") : element;
@@ -150,7 +151,16 @@ var SelectTool = Tool.extend(function($, context) {
 		},
 
 		onDblClick : function(e) {
-			console.log("open properties dialog");
+			var bbox = this.getBBox();
+			context.$popover.attr('title', 'Element properties');
+			context.$popover.attr('data-content', 'The properties panel with inputs : stroke , color, scale, rotation, etc...');
+			context.$popover.css('left', context.$canvas.offset().left + bbox.x2);
+			context.$popover.css('top', context.$canvas.offset().top + bbox.y2 - (bbox.height / 2));
+			context.$popover.popover('show');
+			$('body').one('click.popover.data-api', function() {
+				context.$popover.popover('hide');
+			});
+
 		}
 	};
 });

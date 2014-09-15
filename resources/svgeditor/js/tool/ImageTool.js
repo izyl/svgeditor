@@ -1,7 +1,8 @@
 var ImageTool = Tool.extend(function($, context) {
 
 	this._super($, context);
-
+	var me = this;
+	
 	// public
 	return {
 
@@ -9,6 +10,8 @@ var ImageTool = Tool.extend(function($, context) {
 		icon : ToolbarConfig.IMAGE_TOOL.ICON,
 
 		activate : function() {
+			
+			me._super();
 			console.log('open file dialog');
 		}
 
