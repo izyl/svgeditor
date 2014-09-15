@@ -2,6 +2,9 @@ var ImportAction = Action.extend(function($, context) {
 
 	this._super($, context);
 
+	// privates
+	var me = this;
+	
 	// public
 	return {
 

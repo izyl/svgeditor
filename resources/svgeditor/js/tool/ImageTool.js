@@ -8,9 +8,5 @@ var ImageTool = Tool.extend(function($, context) {
 		title : ToolbarConfig.IMAGE_TOOL.TITLE,
 		icon : ToolbarConfig.IMAGE_TOOL.ICON,
 
-		activate : function() {
-			console.log('open file dialog');
-		}
-
 	};
 });
