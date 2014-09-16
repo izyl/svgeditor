@@ -13,6 +13,7 @@
 	var toolbarGroupTemplate = ToolbarConfig.TEMPLATE_TOOLBARGROUP;
 	var buttonTemplate = ToolbarConfig.TEMPLATE_BUTTON;
 	var imgTemplate = ToolbarConfig.TEMPLATE_IMG;
+	var $popover = $('<div></div>');
 
 	/** la feuille de papier raphael */
 	var paper;
@@ -60,6 +61,13 @@
 		if ($settings.initGrid)
 			initGrid($this);
 		initToolbar($this);
+		initPropertiesDialog();
+	};
+
+	var initPropertiesDialog = function() {
+		$popover.popover();
+		$('body').append($popover);
+		$popover.css('position', 'absolute');
 	};
 
 	var initCanvas = function($this) {
@@ -92,13 +100,15 @@
 
 	var initToolbar = function($this) {
 		var $toolbar = $(toolbarTemplate);
+
 		var options = {
 			$canvas : $canvas,
 			$alert : $alert,
 			$modal : $modal,
 			paper : paper,
 			stroke : stroke,
-			fill : fill
+			fill : fill,
+			$popover : $popover
 		};
 		selectTool = new SelectTool($, options);
 		clearAction = new ClearAction($, options);
