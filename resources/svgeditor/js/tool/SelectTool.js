@@ -141,7 +141,7 @@ var SelectTool = Tool.extend(function($, context) {
 
 		onSelect : function(e) {
 			if (me.active) {
-				e.stopImmediatePropagation();
+				e.stopPropagation();
 				select(this);
 			}
 		},
