@@ -42,11 +42,11 @@ ToolbarConfig = {
 	// bootstrap = http=//getbootstrap.com/components/#glyphicons
 	TEMPLATE_IMG : '<img class="media-object">',
 	TEMPLATE_MODAL : '<div class="modal fade">' + '<div class="modal-dialog">' + '<div class="modal-content">' + '<div class="modal-header waning">'
-			+ '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times,</span><span class="sr-only">Close</span></button>'
-			+ '<h4 class="modal-title">Modal title</h4>' + '</div>' + '<div class="modal-body">' + '<p>One fine body&hellip,</p>' + '</div>'
+			+ '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>'
+			+ '<h4 class="modal-title">Modal title</h4>' + '</div>' + '<div class="modal-body">' + '<p>One fine body&hellip;</p>' + '</div>'
 			+ '<div class="modal-footer">' + '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'
 			+ '<button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>' + '</div>' + '</div>' + '</div>' + '</div>',
-	TEMPLATE_ALERT : '<div class="alert alert-info"> <a class="close" href="#" data-dismiss="alert">&times,</a> <span class="contentspan"></span></div>',
+	TEMPLATE_ALERT : '<div class="alert alert-info"> <a class="close" href="#" data-dismiss="alert">&times;</a> <span class="contentspan"></span></div>',
 
 	/** TOOLS héritent de Tool, ils manipulent le canvas, 1 seul outil actif à la fois */
 	SELECT_TOOL : {

@@ -5,18 +5,18 @@ var Boot = {
 			initGrid : true
 		});
 
-		var secret = '';
+		var secret = 'klkslashslash';
+		var typed = "";
 		$("body").keypress(function(e) {
 
-			var tmpSecret = secret + String.fromCharCode(e.keyCode);
-
-			if ("klk//".indexOf(tmpSecret) == 0) {
-				secret = tmpSecret;
+			var tmpSecret = typed + String.fromCharCode(e.charCode);
+			if (secret.indexOf(tmpSecret) == 0) {
+				typed = tmpSecret;
 			} else {
-				secret = '';
+				typed = '';
 			}
 
-			if (secret.indexOf("klk//") == 0) {
+			if (typed.indexOf(secret) == 0) {
 				$('body').before('<img id="zumb" src="resources/svgeditor/img/zumbi.svg" alt="bouuuuuuhouuuu"/>');
 				$('#zumb').hide().fadeIn(5000).after('<h1><strong>bouuuuuuhouuuu</strong></h1>');
 

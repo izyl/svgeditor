@@ -4,8 +4,7 @@ var SelectTool = Tool.extend(function($, context) {
 
 	// privates
 	var me = this;
-	var elements = context.paper.set();
-	var glows = context.paper.set();
+	var selection = context.paper.set();
 
 	function applyTransfo(set) {
 
@@ -31,7 +30,7 @@ var SelectTool = Tool.extend(function($, context) {
 
 	function isElementSelected(element) {
 		var found = false;
-		elements.forEach(function(elem) {
+		selection.forEach(function(elem) {
 			if (elem.id == element.id) {
 				found = true;
 				return false;
@@ -42,16 +41,18 @@ var SelectTool = Tool.extend(function($, context) {
 	}
 
 	function addGlow(element) {
-		var glow = element.glow(ToolbarConfig.glow);
-		element.data("glow", glow);
-		glows.push(glow);
-		// glow.mousemove(scaleBox);
+		element.data("glow", element.glow(ToolbarConfig.glow));
+	}
+	
+	function removeGlow(element){
+		element.data("glow").remove();
+		element.data("glow", null);
 	}
 
 	function select(element) {
 		if (!isElementSelected(element)) {
 			console.log("add", element);
-			elements.push(element);
+			selection.push(element);
 			addGlow(element);
 		}
 	}
@@ -93,55 +94,50 @@ var SelectTool = Tool.extend(function($, context) {
 	}
 
 	function unselect(element) {
-		elements.exclude(element);
-		// var bbox = element.data("bbox");
-		// bboxs.exclude(bbox);
-		// bbox.remove();
-		var glow = element.data("glow");
-		glows.exclude(glow);
-		glows.undrag();
-		glow.remove();
+		selection.exclude(element);
+		removeGlow(element);
 	}
 
 	// public
 	return {
-		clearSelection : function() {
-			glows.remove();
-
-			glows.unmousemove(scaleBox);
-			glows.clear();
-			elements.forEach(function(element) {
-				element.data("glow", null);
-			});
-			elements.clear();
-			elements.undrag();
-		},
-
-		deleteSelection : function() {
-			glows.remove();
-			glows.clear();
-			elements.remove();
-			elements.clear();
-		},
 
 		title : ToolbarConfig.SELECT_TOOL.TITLE,
 		icon : ToolbarConfig.SELECT_TOOL.ICON,
+		
+		clearSelection : function() {
+			selection.forEach(function(element) {
+				removeGlow(element);
+			});
+			selection.clear();
+		},
+
+		deleteSelection : function() {
+			selection.forEach(function(element) {
+				removeGlow(element);
+				element.remove();
+			});
+			selection.clear();
+		},
 
 		onMove : function(dx, dy, x, y, e) {
-			elements.transform("t" + dx + "," + dy);
-			glows.transform("t" + dx + "," + dy);
+			selection.forEach(function(element){
+				removeGlow(element);
+			});
+			selection.forEach(function(element){
+				element.transform("t" + dx + "," + dy);
+			});
+			selection.forEach(function(element){
+				addGlow(element);
+			});
 		},
 
 		onEnd : function(e) {
-			applyTransfo(elements);
-			for (var glow = 0; glow < glows.length; glow++) {
-				applyTransfo(glows[glow]);
-			}
+			applyTransfo(selection);
 		},
 
 		onSelect : function(e) {
 			if (me.active) {
-				e.stopImmediatePropagation();
+				e.stopPropagation();
 				select(this);
 			}
 		},
@@ -151,15 +147,19 @@ var SelectTool = Tool.extend(function($, context) {
 		},
 
 		onDblClick : function(e) {
-			var bbox = this.getBBox();
-			context.$popover.attr('title', 'Element properties');
-			context.$popover.attr('data-content', 'The properties panel with inputs : stroke , color, scale, rotation, etc...');
-			context.$popover.css('left', context.$canvas.offset().left + bbox.x2);
-			context.$popover.css('top', context.$canvas.offset().top + bbox.y2 - (bbox.height / 2));
-			context.$popover.popover('show');
-			$('body').one('click.popover.data-api', function() {
-				context.$popover.popover('hide');
-			});
+			
+			console.log(this);
+			
+//			var bbox = this.getBBox();
+//			context.$popover.attr('title', 'Element properties');
+//			context.$popover.attr('data-content', 'The properties panel with inputs : stroke , color, scale, rotation, etc...');
+//			context.$popover.css('left', context.$canvas.offset().left + bbox.x2);
+//			context.$popover.css('top', context.$canvas.offset().top + bbox.y2 - (bbox.height / 2));
+//			context.$popover.popover('show');
+//			
+//			$('body').one('click.popover.data-api', function() {
+//				context.$popover.popover('hide');
+//			});
 
 		}
 	};
