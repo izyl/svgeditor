@@ -1,7 +1,6 @@
 /*
- * Licensed under the MIT license:
- * http://www.opensource.org/licenses/mit-license.php
- *
+ * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+ * 
  */
 (function (root, factory) {
 	if ( typeof define === 'function' && define.amd ) {
@@ -191,7 +190,7 @@
 				ft.circle.attr({
 					cx: ft.attrs.center.x + ft.attrs.translate.x,
 					cy: ft.attrs.center.y + ft.attrs.translate.y,
-					r:  Math.max(radius.x, radius.y) * ft.opts.distance
+					r:  Math.abs(Math.max(radius.x, radius.y) * ft.opts.distance)
 				});
 			}
 
@@ -622,8 +621,8 @@
 		 */
 
 		/*
-
-		*/
+		 * 
+		 */
 		ft.hideHandles = function(opts) {
 			var opts = opts || {}
 

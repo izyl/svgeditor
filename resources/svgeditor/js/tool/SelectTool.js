@@ -32,6 +32,7 @@ var SelectTool = Tool.extend(function($, context) {
 			var ft = context.paper.freeTransform(element, {
 				keepRatio : true,
 				draw : [ 'bbox', 'circle' ]
+			// draw : [ 'bbox', 'circle' ]
 			}, function(ft, events) {
 				console.log(ft.attrs);
 				console.log(events);
@@ -73,6 +74,11 @@ var SelectTool = Tool.extend(function($, context) {
 				select(this);
 				e.stopPropagation();
 			}
+		},
+
+		descativate : function() {
+			me._super();
+			me.active = false;
 		},
 
 		onDblClick : function(e) {
