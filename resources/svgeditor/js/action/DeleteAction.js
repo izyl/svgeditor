@@ -6,7 +6,7 @@ var DeleteAction = Action.extend(function($, context) {
 
 	// privates
 	$this = $(this);
-	$("body").keydown(function(e) {
+	$(document).keydown(function(e) {
 		if (KEYCODE_DELETE == e.keyCode) {
 			$this.trigger('svge.deleteSelection');
 		}

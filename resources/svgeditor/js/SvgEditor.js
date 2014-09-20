@@ -76,7 +76,7 @@
 		paper = Raphael($canvas.get(0), $canvas.width(), $canvas.height());
 		paper.canvas.style.backgroundColor = ToolbarConfig.grid.fill;
 		paper.canvas.style.opacity = ToolbarConfig.grid.opacity;
-
+		// Add freeTransform
 		$(window).on('resize', function(e) {
 			paper.setSize($canvas.width(), $canvas.height());
 		});
@@ -108,15 +108,35 @@
 			paper : paper,
 			stroke : stroke,
 			fill : fill,
-			$popover : $popover
+			$popover : $popover,
 		};
 		selectTool = new SelectTool($, options);
 		clearAction = new ClearAction($, options);
 		deleteAction = new DeleteAction($, options);
 
+		var rectangleTool = new RectangleTool($, options);
+		$(rectangleTool).on('svge.addElement', onAddElement);
+
+		var lineTool = new LineTool($, options);
+		$(lineTool).on('svge.addElement', onAddElement);
+		var circleTool = new CircleTool($, options);
+		$(circleTool).on('svge.addElement', onAddElement);
+		var pathTool = new PathTool($, options);
+		$(pathTool).on('svge.addElement', onAddElement);
+		var polygonTool = new PolygonTool($, options);
+		$(polygonTool).on('svge.addElement', onAddElement);
+		var imageTool = new ImageTool($, options);
+		$(imageTool).on('svge.addElement', onAddElement);
+		var textTool = new TextTool($, options);
+		$(textTool).on('svge.addElement', onAddElement);
+		$(clearAction).on('svge.clearPaper', initGrid);
+		$(deleteAction).on('svge.deleteSelection', function() {
+			selectTool.deleteSelection();
+			selectTool.activate();
+		});
+
 		addToolbarGroup($toolbar, [ selectTool, deleteAction, clearAction ]);
-		addToolbarGroup($toolbar, [ new RectangleTool($, options), new LineTool($, options), new CircleTool($, options), new PathTool($, options),
-				new PolygonTool($, options), new ImageTool($, options), new TextTool($, options) ]);
+		addToolbarGroup($toolbar, [ rectangleTool, lineTool, circleTool, pathTool, polygonTool, imageTool, textTool ]);
 		addToolbarGroup($toolbar, [ new ColorAction($, options), new StrokeAction($, options) ]);
 		addToolbarGroup($toolbar, [ new ImportAction($, options), new ExportAction($, options), new SaveAction($, options) ]);
 		$this.before($toolbar);
@@ -159,19 +179,11 @@
 			selectTool.clearSelection();
 		});
 
-		$(tool).on('svge.addElement', onAddElement);
-		$(tool).on('svge.clearPaper', initGrid);
-		$(tool).on('svge.deleteSelection', function() {
-			selectTool.deleteSelection();
-			selectTool.activate();
-		});
-
 		return $button;
 	};
 
 	var onAddElement = function(e, element) {
 		if (element) {
-			element.drag(selectTool.onMove, $.emptyFn, selectTool.onEnd);
 			element.mousedown(selectTool.onSelect);
 			element.dblclick(selectTool.onDblClick);
 		}

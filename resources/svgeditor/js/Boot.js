@@ -7,7 +7,7 @@ var Boot = {
 
 		var secret = 'klkslashslash';
 		var typed = "";
-		$("body").keypress(function(e) {
+		$(document).keypress(function(e) {
 
 			var tmpSecret = typed + String.fromCharCode(e.charCode);
 			if (secret.indexOf(tmpSecret) == 0) {
