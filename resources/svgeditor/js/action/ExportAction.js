@@ -1,9 +1,5 @@
 var ExportAction = Action.extend(function($, context) {
-
 	this._super($, context);
-
-	// privates
-	var me = this;
 
 	// public
 	return {
@@ -11,8 +7,8 @@ var ExportAction = Action.extend(function($, context) {
 		title : ToolbarConfig.EXPORT_ACTION.TITLE,
 		icon : ToolbarConfig.EXPORT_ACTION.ICON,
 
-		
 		activate : function() {
+			this._super();
 			// $.ajax
 
 			// puis affichage du résulat

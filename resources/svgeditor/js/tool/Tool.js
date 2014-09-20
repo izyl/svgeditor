@@ -37,10 +37,10 @@ var Tool = Action.extend(function($, context) {
 		},
 
 		desactivate : function() {
-			context.$canvas.off("mousedown");
-			$(document).off("mousemove");
-			$(document).off("dblclick");
-			$(document).off("mouseup");
+			context.$canvas.off("mousedown", me.onMouseDown);
+			$(document).off("mousemove", me.onMouseMove);
+			$(document).off("dblclick", me.onDblclick);
+			$(document).off("mouseup", me.onMouseUp);
 			me.active = false;
 		},
 

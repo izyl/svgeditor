@@ -13,7 +13,6 @@
 	var toolbarGroupTemplate = ToolbarConfig.TEMPLATE_TOOLBARGROUP;
 	var buttonTemplate = ToolbarConfig.TEMPLATE_BUTTON;
 	var imgTemplate = ToolbarConfig.TEMPLATE_IMG;
-	var $popover = $('<div></div>');
 
 	/** la feuille de papier raphael */
 	var paper;
@@ -21,10 +20,8 @@
 	var stroke = ToolbarConfig.stroke;
 	var fill = ToolbarConfig.fill;
 	var currentTool;
-
+	var grid = [];
 	var selectTool;
-	var clearAction;
-	var deleteAction;
 
 	var methods = {
 		init : function(options) {
@@ -61,13 +58,6 @@
 		if ($settings.initGrid)
 			initGrid($this);
 		initToolbar($this);
-		initPropertiesDialog();
-	};
-
-	var initPropertiesDialog = function() {
-		$popover.popover();
-		$('body').append($popover);
-		$popover.css('position', 'absolute');
 	};
 
 	var initCanvas = function($this) {
@@ -89,12 +79,16 @@
 		// déclencherait pas la déselection
 		for (var x = ($canvas.offset().left % ToolbarConfig.gridCellSize); x < $canvas.width(); x += ToolbarConfig.gridCellSize) {
 			var vpath = "M " + x + " 0 l 0 " + $canvas.height() + " z";
-			paper.path(vpath).attr(ToolbarConfig.grid);
+			var path = paper.path(vpath);
+			path.attr(ToolbarConfig.grid).node.className.baseVal = "svg-grid";
+			grid.push(path);
 		}
 		// horizontal lines
 		for (var y = ($canvas.offset().top % ToolbarConfig.gridCellSize); y < $canvas.height(); y += ToolbarConfig.gridCellSize) {
 			var hpath = "M 0 " + y + " l " + $canvas.width() + " 0 z";
-			paper.path(hpath).attr(ToolbarConfig.grid);
+			var path = paper.path(hpath);
+			path.attr(ToolbarConfig.grid).node.className.baseVal = "svg-grid";
+			grid.push(path);
 		}
 	};
 
@@ -108,11 +102,22 @@
 			paper : paper,
 			stroke : stroke,
 			fill : fill,
-			$popover : $popover,
+			grid : grid
 		};
 		selectTool = new SelectTool($, options);
-		clearAction = new ClearAction($, options);
-		deleteAction = new DeleteAction($, options);
+
+		var toFrontAction = new ToFrontAction($, options);
+		$(toFrontAction).on('svge.toFront', function() {
+			selectTool.toFront();
+		});
+		var toBackAction = new ToBackAction($, options);
+		$(toBackAction).on('svge.toBack', selectTool.toBack);
+		var clearAction = new ClearAction($, options);
+		$(clearAction).on('svge.clearPaper', function(){
+			paper.clear();
+			initGrid();
+		});
+		var deleteAction = new DeleteAction($, options);
 
 		var rectangleTool = new RectangleTool($, options);
 		$(rectangleTool).on('svge.addElement', onAddElement);
@@ -129,13 +134,13 @@
 		$(imageTool).on('svge.addElement', onAddElement);
 		var textTool = new TextTool($, options);
 		$(textTool).on('svge.addElement', onAddElement);
-		$(clearAction).on('svge.clearPaper', initGrid);
+
 		$(deleteAction).on('svge.deleteSelection', function() {
 			selectTool.deleteSelection();
 			selectTool.activate();
 		});
 
-		addToolbarGroup($toolbar, [ selectTool, deleteAction, clearAction ]);
+		addToolbarGroup($toolbar, [ selectTool, toFrontAction, toBackAction, deleteAction, clearAction ]);
 		addToolbarGroup($toolbar, [ rectangleTool, lineTool, circleTool, pathTool, polygonTool, imageTool, textTool ]);
 		addToolbarGroup($toolbar, [ new ColorAction($, options), new StrokeAction($, options) ]);
 		addToolbarGroup($toolbar, [ new ImportAction($, options), new ExportAction($, options), new SaveAction($, options) ]);
@@ -171,12 +176,12 @@
 		}
 
 		$button.on('click', function(e) {
-			if (currentTool) {
+
+			if (tool && tool instanceof Tool && currentTool) {
 				currentTool.desactivate();
 			}
+			tool.activate();
 			currentTool = tool;
-			currentTool.activate();
-			selectTool.clearSelection();
 		});
 
 		return $button;
