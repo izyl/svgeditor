@@ -90,12 +90,15 @@ var SelectTool = Tool.extend(function($, context) {
 
 		desactivate : function() {
 			me._super();
-			me.active = false;
 			me.clearSelection();
 		},
 
 		onDblClick : function(e) {
-
+			
+			if(!me.active){
+				return;
+			}
+			console.log('dbl');
 			var element = this;
 
 			$popover.popover({

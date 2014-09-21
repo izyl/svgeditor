@@ -113,7 +113,7 @@
 		var toBackAction = new ToBackAction($, options);
 		$(toBackAction).on('svge.toBack', selectTool.toBack);
 		var clearAction = new ClearAction($, options);
-		$(clearAction).on('svge.clearPaper', function(){
+		$(clearAction).on('svge.clearPaper', function() {
 			paper.clear();
 			initGrid();
 		});
@@ -177,11 +177,15 @@
 
 		$button.on('click', function(e) {
 
-			if (tool && tool instanceof Tool && currentTool) {
-				currentTool.desactivate();
+			
+			if(tool instanceof Tool){
+				if (currentTool) {
+					currentTool.desactivate();
+				}
+				currentTool = tool;
 			}
+			
 			tool.activate();
-			currentTool = tool;
 		});
 
 		return $button;
