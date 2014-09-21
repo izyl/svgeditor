@@ -2,7 +2,8 @@ var ClearAction = Action.extend(function($, context) {
 
 	this._super($, context);
 	// privates
-	$this = $(this);
+	var $this;
+	
 	// public
 	return {
 
@@ -12,7 +13,8 @@ var ClearAction = Action.extend(function($, context) {
 
 		activate : function() {
 			this._super();
-
+			$this = $(this);
+			
 			context.$modal.find('.modal-title').text('Confirmation');
 			context.$modal.find('.modal-body p').text('Every elements will be deleted, are you sure?');
 			context.$modal.find('.btn-default').text('Cancel');
