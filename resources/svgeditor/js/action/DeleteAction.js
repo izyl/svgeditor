@@ -1,9 +1,9 @@
 var DeleteAction = Action.extend(function($, context) {
+
 	this._super($, context);
 
 	// privates
 	var KEYCODE_DELETE = 46;
-	$this = $(this);
 	$(document).keydown(function(e) {
 		if (KEYCODE_DELETE == e.keyCode) {
 			$this.trigger('svge.deleteSelection');
@@ -18,7 +18,7 @@ var DeleteAction = Action.extend(function($, context) {
 
 		activate : function() {
 			this._super();
-			$this.trigger('svge.deleteSelection');
+			$(this).trigger('svge.deleteSelection');
 		}
 	};
 });

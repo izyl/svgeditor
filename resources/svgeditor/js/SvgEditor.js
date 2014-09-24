@@ -137,7 +137,8 @@
 
 		$(deleteAction).on('svge.deleteSelection', function() {
 			selectTool.deleteSelection();
-			selectTool.activate();
+			if (currentTool == selectTool)
+				selectTool.activate();
 		});
 
 		addToolbarGroup($toolbar, [ selectTool, toFrontAction, toBackAction, deleteAction, clearAction ]);
@@ -177,14 +178,13 @@
 
 		$button.on('click', function(e) {
 
-			
-			if(tool instanceof Tool){
+			if (tool instanceof Tool) {
 				if (currentTool) {
 					currentTool.desactivate();
 				}
 				currentTool = tool;
 			}
-			
+
 			tool.activate();
 		});
 
