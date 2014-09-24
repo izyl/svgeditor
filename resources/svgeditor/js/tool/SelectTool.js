@@ -4,6 +4,14 @@ var SelectTool = Tool.extend(function($, context) {
 	// privates
 	var KEYCODE_ESCAPE = 27;
 	var $popover = $('<div></div>');
+	$popover.popover({
+		'title' : function() {
+			return '<h4>' + ToolbarConfig.PROPERTIES_DIALOG.TITLE + '</h4>';
+		},
+		'html' : true,
+		'content' : ToolbarConfig.PROPERTIES_DIALOG.CONTENT
+	});
+
 	$('body').append($popover);
 	var me = this;
 	$(document).keydown(function(e) {
@@ -13,6 +21,7 @@ var SelectTool = Tool.extend(function($, context) {
 	});
 
 	var selection = context.paper.set();
+	var freetransform;
 
 	function isElementSelected(element) {
 		var found = false;
@@ -29,14 +38,16 @@ var SelectTool = Tool.extend(function($, context) {
 	function select(element) {
 		if (!isElementSelected(element)) {
 			selection.push(element);
-			// Add freeTransform with options and callback
-			var ft = context.paper.freeTransform(element, {
+
+			if (freetransform) {
+				freetransform.unplug();
+			}
+
+			freetransform = context.paper.freeTransform(selection, {
 				keepRatio : true,
 				draw : [ 'bbox', 'circle' ]
-			// draw : [ 'bbox', 'circle' ]
-			}, function(ft, events) {
 			});
-			element.data('ft', ft);
+			freetransform.apply();
 		}
 	}
 
@@ -59,17 +70,19 @@ var SelectTool = Tool.extend(function($, context) {
 		},
 
 		clearSelection : function() {
-			selection.forEach(function(element) {
-				element.data('ft').unplug();
-			});
+			if (freetransform) {
+				freetransform.unplug();
+			}
 			selection.clear();
 		},
 
 		deleteSelection : function() {
 			selection.forEach(function(element) {
-				element.data('ft').unplug();
 				element.remove();
 			});
+			if (freetransform) {
+				freetransform.unplug();
+			}
 			selection.clear();
 		},
 
@@ -94,20 +107,13 @@ var SelectTool = Tool.extend(function($, context) {
 		},
 
 		onDblClick : function(e) {
-			
-			if(!me.active){
+
+			if (!me.active) {
 				return;
 			}
 			console.log('dbl');
 			var element = this;
 
-			$popover.popover({
-				'title' : function() {
-					return '<h4>' + ToolbarConfig.PROPERTIES_DIALOG.TITLE + '</h4>';
-				},
-				'html' : true,
-				'content' : ToolbarConfig.PROPERTIES_DIALOG.CONTENT
-			});
 			$popover.css('position', 'absolute');
 			var bbox = this.getBBox();
 			$popover.css('left', context.$canvas.offset().left + bbox.x2);
@@ -118,62 +124,28 @@ var SelectTool = Tool.extend(function($, context) {
 				$popover.popover('hide');
 			});
 
-			$('#svg-element-stroke-color').on('change', function(e) {
-				element.attr('stroke', '#' + $(this).val());
+			$('#svg-element-stroke-color').val(element.attr('stroke')).on('change', function(e) {
+				selection.attr('stroke', '#' + $(this).val());
 			});
 			$('#svg-element-stroke-width').on('change', function(e) {
-				element.attr('stroke-width', $(this).val());
+				selection.attr('stroke-width', $(this).val());
 			});
 			$('#svg-element-stroke-opacity').on('change', function(e) {
-				element.attr('stroke-opacity', $(this).val() + '%');
+				selection.attr('stroke-opacity', $(this).val() + '%');
 			});
 			$('#svg-element-fill-color').on('change', function(e) {
-				element.attr('fill', '#' + $(this).val());
+				selection.attr('fill', '#' + $(this).val());
 			});
 			$('#svg-element-fill-opacity').on('change', function(e) {
-				element.attr('fill-opacity', $(this).val() + '%');
+				selection.attr('fill-opacity', $(this).val() + '%');
 			});
 			$('#svg-element-up').on('click', function(e) {
-				element.toFront();
+				selection.toFront();
 			});
 
 			$('#svg-element-down').on('click', function(e) {
-				element.toBack();
+				selection.toBack();
 			});
-
-			// $popover.on('hidden.bs.popover', function(a,b,c,d) {
-			// // do something…
-			// $popover.popover('hide');
-			// });
-
-			// <!-- Button trigger modal -->
-			// <button class="btn btn-primary btn-lg" data-toggle="modal"
-			// data-target="#myModal">
-			// Launch demo modal
-			// </button>
-			//
-			// <!-- Modal -->
-			// <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-			// aria-labelledby="myModalLabel" aria-hidden="true">
-			// <div class="modal-dialog">
-			// <div class="modal-content">
-			// <div class="modal-header">
-			// <button type="button" class="close" data-dismiss="modal"><span
-			// aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-			// <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-			// </div>
-			// <div class="modal-body">
-			// ...
-			// </div>
-			// <div class="modal-footer">
-			// <button type="button" class="btn btn-default"
-			// data-dismiss="modal">Close</button>
-			// <button type="button" class="btn btn-primary">Save changes</button>
-			// </div>
-			// </div>
-			// </div>
-			// </div>
-
 		}
 	};
 });
