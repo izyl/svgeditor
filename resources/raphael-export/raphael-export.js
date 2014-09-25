@@ -1,8 +1,6 @@
 /**
- * Raphael.Export https://github.com/ElbertF/Raphael.Export
- * 
- * Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
- * 
+ * Raphael.Export https://github.com/ElbertF/Raphael.Export Licensed under the MIT license:
+ * http://www.opensource.org/licenses/mit-license.php
  */
 (function(R) {
 	/**
@@ -83,7 +81,8 @@
 	 * @param name
 	 *            the tag name, e.g., 'text'
 	 * @param attrs
-	 *            the attribute string, e.g., name1="val1" name2="val2" or attribute map, e.g., { name1 : 'val1', name2 : 'val2' }
+	 *            the attribute string, e.g., name1="val1" name2="val2" or attribute map, e.g., {
+	 *            name1 : 'val1', name2 : 'val2' }
 	 * @param content
 	 *            the content string inside the tag
 	 * @returns string of the tag
@@ -135,7 +134,8 @@
 		// Tyler: it refers to the default inherited from CSS. Order of terms here:
 		// http://www.w3.org/TR/SVG/text.html#FontProperty
 		var norm = 'normal', textAnchor = 'text-anchor: ' + (style.anchor || 'middle') + '; ', font = style.font;
-		// return 'font: normal normal normal 10px/normal ' + style.font.family + ( style.font.size === null ? '' : '; font-size: ' + style.font.size + 'px' );
+		// return 'font: normal normal normal 10px/normal ' + style.font.family + ( style.font.size
+		// === null ? '' : '; font-size: ' + style.font.size + 'px' );
 		return textAnchor + [ 'font:', (font.style || norm), // font-style (e.g. italic)
 		norm, // font-variant
 		(font.weight || norm), // font-weight (e.g. bold)
@@ -156,7 +156,8 @@
 		return value;
 	}
 	/**
-	 * Computes tspan dy using font size. This formula was empircally determined using a best-fit line. Works well in both VML and SVG browsers.
+	 * Computes tspan dy using font size. This formula was empircally determined using a best-fit
+	 * line. Works well in both VML and SVG browsers.
 	 * 
 	 * @param fontSize
 	 *            number
@@ -213,7 +214,8 @@
 		}
 	// Other serializers should go here
 	};
-	R.fn.toSVG = function() {
+	R.fn.toSVG = function(excludes) {
+
 		var paper = this, restore = {
 			svg : R.svg,
 			vml : R.vml
@@ -222,6 +224,21 @@
 		R.svg = true;
 		R.vml = false;
 		for (var node = paper.bottom; node != null; node = node.next) {
+
+			if (excludes) {
+				var isExcluded = false;
+				for (exclude in excludes) {
+					if (excludes[exclude] === node) {
+						// on ne le sérialize pas
+						isExcluded = true;
+						break;
+					}
+				}
+				if (isExcluded) {
+					continue;
+				}
+			}
+
 			if (node.node.style.display === 'none')
 				continue;
 			var attrs = '';
@@ -303,7 +320,7 @@
 						name = 'fill';
 						value = 'url(#radialgradient' + id + ')';
 					} else {// linear gradient
-					// assuming gradient is validated already!!
+						// assuming gradient is validated already!!
 						var angle = gradient.shift();
 						angle = parseFloat(angle) * -1;
 						if (isNaN(angle)) {

@@ -1,32 +1,139 @@
 var SelectTool = Tool.extend(function($, context) {
-
 	this._super($, context);
 
 	// privates
+	var KEYCODE_ESCAPE = 27;
+	var $popover = $('<div></div>');
+	$popover.popover({
+		'title' : function() {
+			return '<h4>' + ToolbarConfig.PROPERTIES_DIALOG.TITLE + '</h4>';
+		},
+		'html' : true,
+		'content' : ToolbarConfig.PROPERTIES_DIALOG.CONTENT
+	});
+
+	$('body').append($popover);
 	var me = this;
+	$(document).keydown(function(e) {
+		if (KEYCODE_ESCAPE == e.keyCode) {
+			me.clearSelection();
+		}
+	});
+
+	// Example rectangle de selection : http://jsfiddle.net/ELBVG/2/
+	
+	/*
+	 * var R = Raphael(0,0, 500, 500);
+
+
+
+var mat = R.rect(0, 0, R.width, R.height);
+mat.attr("stroke", "#000");
+mat.attr("fill", "#fff");
+mat.attr("opacity", "0");
+
+var circle = R.circle(50, 40, 10);
+circle.attr("fill", "#f00");
+var rect = R.rect(100, 50, 100,100);
+rect.attr("fill", "#f00");
+
+
+var box;
+var selections = R.set();
+
+var start = function(x, y, event) {
+    var bnds = event.target.getBoundingClientRect();
+
+    var mx = event.clientX - bnds.left;
+    var my = event.clientY - bnds.top;
+
+    var fx = mx / bnds.width * mat.attrs.width;
+    var fy = my / bnds.height * mat.attrs.height;
+
+    fx = Number(fx).toPrecision(3);
+    fy = Number(fy).toPrecision(3);
+
+    box = R.rect(fx, fy, 0, 0).attr("stroke", "#9999FF");
+
+}, move = function(dx, dy, event) {
+    var xoffset = 0, yoffset = 0;
+    if (dx < 0) {
+        xoffset = dx;
+        dx = -1 * dx;
+    }
+    if (dy < 0) {
+        yoffset = dy;
+        dy = -1 * dy;
+    }
+    box.transform("T" + xoffset + "," + yoffset);
+    box.attr("width", dx);
+    box.attr("height", dy);
+}, up = function() {
+
+    var bounds = box.getBBox();
+
+    box.remove();
+
+    reset();
+
+    R.forEach(function(el) {
+
+        var mybounds = el.getBBox();
+
+        if (mybounds.x >= bounds.x && mybounds.x <= bounds.x2
+                || mybounds.x2 >= bounds.x && mybounds.x2 <= bounds.x2) {
+            if (mybounds.y >= bounds.y && mybounds.y <= bounds.y2
+                    || mybounds.y2 >= bounds.y && mybounds.y2 <= bounds.y2) {
+                selections.push(el);
+            }
+        }
+    });
+
+    if (selections.length > 0) {
+        var sft = R.freeTransform(selections);
+        sft.setOpts({
+            drag : 'self',
+            draw : 'bbox',
+            rotate : false,
+            scale : false
+        }, function(sft, events) {
+            if (events.indexOf('drag end') !== -1) {
+                sft.apply();
+
+                selections.forEach(function(entry) {
+                    //var abc = R.freeTransform(entry);
+
+                    //abc.apply();
+                    //abc.updateHandles();
+
+                });
+
+                sft.unplug();
+
+            }
+
+        });
+
+    }
+
+};
+
+function reset() {
+    if (typeof sft !== 'undefined') {
+
+        sft.unplug();
+    }
+    selections = R.set();
+}
+
+mat.drag(move, start, up);
+mat.click(function(e) {
+    reset();
+});
+	 * */
+	
 	var selection = context.paper.set();
-
-	function applyTransfo(set) {
-
-		set.forEach(function(elem) {
-
-			var realX = elem.matrix.x(elem.attr("x"), elem.attr("y"));
-			var realY = elem.matrix.y(elem.attr("x"), elem.attr("y"));
-
-			if (elem.type == "path") {
-				elem.attr("path", Raphael.transformPath(elem.attr("path"), elem.transform()));
-			} else {
-				elem.attr({
-					x : realX,
-					y : realY,
-					cx : realX,
-					cy : realY,
-				});
-			}
-			elem.transform("");
-		});
-
-	}
+	var freetransform;
 
 	function isElementSelected(element) {
 		var found = false;
@@ -40,62 +147,20 @@ var SelectTool = Tool.extend(function($, context) {
 		return found;
 	}
 
-	function addGlow(element) {
-		element.data("glow", element.glow(ToolbarConfig.glow));
-	}
-	
-	function removeGlow(element){
-		element.data("glow").remove();
-		element.data("glow", null);
-	}
-
 	function select(element) {
 		if (!isElementSelected(element)) {
-			console.log("add", element);
 			selection.push(element);
-			addGlow(element);
-		}
-	}
 
-	var scaleBox = function(e) {
-		var element = context.paper.getElementByPoint(e.pageX, e.pageY);
-		if (isElementSelected(element)) {
-
-			var bbox = element.getBBox();
-			var center = me.getBBoxCenter(bbox);
-			var cursor = me.getMousePosition(e);
-
-			// angle formé des 3 points dans l'ordre : coin supérieur gauche de la bbox,
-			// centre de
-			// la bbox, curseur
-			var angle = Raphael.angle(bbox.x, bbox.y, cursor.x, cursor.y, center.x, center.y);
-			var glow = element.data("glow") ? element.data("glow") : element;
-			// log visuel pour la postion du curseur
-			$('#console').text("x:" + cursor.x + ",y:" + cursor.y + ", angle: " + angle);
-			// ça va pas marcher .. TODO : calcul du sens de la double fleche
-			if (angle > 5 && angle < 35) {
-				glow.attr('cursor', 'n-resize');
-			} else if (angle >= 35 && angle <= 50) {
-				glow.attr('cursor', 'ne-resize');
-			} else if (angle > 40 && angle < 60) {
-				glow.attr('cursor', 'e-resize');
-			} else if (angle > -5 && angle < 5) {
-				glow.attr('cursor', 'se-resize');
-			} else if (angle > -5 && angle < 5) {
-				glow.attr('cursor', 's-resize');
-			} else if (angle > -5 && angle < 5) {
-				glow.attr('cursor', 'sw-resize');
-			} else if (angle > -5 && angle < 5) {
-				glow.attr('cursor', 'w-resize');
-			} else if (angle > -5 && angle < 5) {
-				glow.attr('cursor', 'nw-resize');
+			if (freetransform) {
+				freetransform.unplug();
 			}
-		}
-	}
 
-	function unselect(element) {
-		selection.exclude(element);
-		removeGlow(element);
+			freetransform = context.paper.freeTransform(selection, {
+				keepRatio : true,
+				draw : [ 'bbox', 'circle' ]
+			});
+			freetransform.apply();
+		}
 	}
 
 	// public
@@ -103,64 +168,96 @@ var SelectTool = Tool.extend(function($, context) {
 
 		title : ToolbarConfig.SELECT_TOOL.TITLE,
 		icon : ToolbarConfig.SELECT_TOOL.ICON,
-		
-		clearSelection : function() {
-			selection.forEach(function(element) {
-				removeGlow(element);
+
+		toFront : function() {
+			selection.forEach(function(elem) {
+				elem.toFront();
 			});
+		},
+
+		toBack : function() {
+			selection.forEach(function(elem) {
+				elem.toBack();
+			});
+		},
+
+		clearSelection : function() {
+			if (freetransform) {
+				freetransform.unplug();
+			}
 			selection.clear();
 		},
 
 		deleteSelection : function() {
 			selection.forEach(function(element) {
-				removeGlow(element);
 				element.remove();
 			});
+			if (freetransform) {
+				freetransform.unplug();
+			}
 			selection.clear();
 		},
 
-		onMove : function(dx, dy, x, y, e) {
-			selection.forEach(function(element){
-				removeGlow(element);
-			});
-			selection.forEach(function(element){
-				element.transform("t" + dx + "," + dy);
-			});
-			selection.forEach(function(element){
-				addGlow(element);
-			});
-		},
-
-		onEnd : function(e) {
-			applyTransfo(selection);
+		onMouseDown : function(e) {
+			var element = context.paper.getElementByPoint(e.pageX, e.pageY);
+			if (!element) {
+				me.clearSelection();
+				$popover.popover('hide');
+			}
 		},
 
 		onSelect : function(e) {
 			if (me.active) {
-				e.stopPropagation();
 				select(this);
+				e.stopPropagation();
 			}
 		},
 
-		onMouseDown : function(e) {
+		desactivate : function() {
+			me._super();
 			me.clearSelection();
 		},
 
 		onDblClick : function(e) {
-			
-			console.log(this);
-			
-//			var bbox = this.getBBox();
-//			context.$popover.attr('title', 'Element properties');
-//			context.$popover.attr('data-content', 'The properties panel with inputs : stroke , color, scale, rotation, etc...');
-//			context.$popover.css('left', context.$canvas.offset().left + bbox.x2);
-//			context.$popover.css('top', context.$canvas.offset().top + bbox.y2 - (bbox.height / 2));
-//			context.$popover.popover('show');
-//			
-//			$('body').one('click.popover.data-api', function() {
-//				context.$popover.popover('hide');
-//			});
 
+			if (!me.active) {
+				return;
+			}
+			console.log('dbl');
+			var element = this;
+
+			$popover.css('position', 'absolute');
+			var bbox = this.getBBox();
+			$popover.css('left', context.$canvas.offset().left + bbox.x2);
+			$popover.css('top', context.$canvas.offset().top + bbox.y2 - (bbox.height / 2));
+			$popover.popover('show');
+
+			$('#svg-element-close').on('click', function(e) {
+				$popover.popover('hide');
+			});
+
+			$('#svg-element-stroke-color').val(element.attr('stroke')).on('change', function(e) {
+				selection.attr('stroke', '#' + $(this).val());
+			});
+			$('#svg-element-stroke-width').on('change', function(e) {
+				selection.attr('stroke-width', $(this).val());
+			});
+			$('#svg-element-stroke-opacity').on('change', function(e) {
+				selection.attr('stroke-opacity', $(this).val() + '%');
+			});
+			$('#svg-element-fill-color').on('change', function(e) {
+				selection.attr('fill', '#' + $(this).val());
+			});
+			$('#svg-element-fill-opacity').on('change', function(e) {
+				selection.attr('fill-opacity', $(this).val() + '%');
+			});
+			$('#svg-element-up').on('click', function(e) {
+				selection.toFront();
+			});
+
+			$('#svg-element-down').on('click', function(e) {
+				selection.toBack();
+			});
 		}
 	};
 });

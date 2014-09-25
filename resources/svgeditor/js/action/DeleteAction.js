@@ -1,12 +1,10 @@
 var DeleteAction = Action.extend(function($, context) {
 
-	var KEYCODE_DELETE = 46;
-
 	this._super($, context);
 
 	// privates
-	$this = $(this);
-	$("body").keydown(function(e) {
+	var KEYCODE_DELETE = 46;
+	$(document).keydown(function(e) {
 		if (KEYCODE_DELETE == e.keyCode) {
 			$this.trigger('svge.deleteSelection');
 		}
@@ -19,7 +17,8 @@ var DeleteAction = Action.extend(function($, context) {
 		icon : ToolbarConfig.DELETE_TOOL.ICON,
 
 		activate : function() {
-			$this.trigger('svge.deleteSelection');
+			this._super();
+			$(this).trigger('svge.deleteSelection');
 		}
 	};
 });

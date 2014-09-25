@@ -26,9 +26,10 @@ var Tool = Action.extend(function($, context) {
 
 		activate : function() {
 
+			// this représente ici l'instance de l'objet enfant (par exemple rectangleTool), on
+			// l'affete à me pour pouvoir l'utiliser dans cette classe indépendament du context
 			me = this;
 			me.active = true;
-			// this représente ici l'instance de l'objet enfant (par exemple rectangleTool)
 			context.$canvas.on("mousedown", me.onMouseDown);
 			$(document).on("mousemove", me.onMouseMove);
 			$(document).on("dblclick", me.onDblclick);
@@ -36,10 +37,10 @@ var Tool = Action.extend(function($, context) {
 		},
 
 		desactivate : function() {
-			context.$canvas.off("mousedown");
-			$(document).off("mousemove");
-			$(document).off("dblclick");
-			$(document).off("mouseup");
+			context.$canvas.off("mousedown", me.onMouseDown);
+			$(document).off("mousemove", me.onMouseMove);
+			$(document).off("dblclick", me.onDblclick);
+			$(document).off("mouseup", me.onMouseUp);
 			me.active = false;
 		},
 

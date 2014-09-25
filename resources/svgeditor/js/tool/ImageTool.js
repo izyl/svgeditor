@@ -12,7 +12,6 @@ var ImageTool = Tool.extend(function($, context) {
 		activate : function() {
 			
 			me._super();
-			console.log('open file dialog');
 		}
 
 	};

@@ -48,6 +48,35 @@ ToolbarConfig = {
 			+ '<button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>' + '</div>' + '</div>' + '</div>' + '</div>',
 	TEMPLATE_ALERT : '<div class="alert alert-info"> <a class="close" href="#" data-dismiss="alert">&times;</a> <span class="contentspan"></span></div>',
 
+	PROPERTIES_DIALOG : {
+		TITLE : 'Element properties',
+		CONTENT : '<div class="panel panel-primary">'
+				+ '<div class="panel-heading"><h3 class="panel-title">Fill</h3></div>'
+				+ '<div class="panel-body">'
+				+ '<div class="input-group prop-btns"><span class="input-group-addon">#</span><input id="svg-element-fill-color" type="text" class="form-control" placeholder="color"></div>'
+				+ '<div class="input-group prop-btns"><input id="svg-element-fill-opacity" type="text" class="form-control" placeholder="opacity"><span class="input-group-addon">%</span></div>'
+				+ '</div>'
+				+ '</div>'
+
+				+ '<div class="panel panel-primary">'
+				+ '<div class="panel-heading"><h3 class="panel-title">Stroke</h3></div>'
+				+ '<div class="panel-body">'
+				+ '<div class="input-group prop-btns"><span class="input-group-addon">#</span><input id="svg-element-stroke-color"  type="text" class="form-control" placeholder="color"></div>'
+				+ '<div class="input-group prop-btns"><input id="svg-element-stroke-opacity" type="text" class="form-control" placeholder="opacity"><span class="input-group-addon">%</span></div>'
+				+ '<div class="input-group prop-btns"><input id="svg-element-stroke-width" type="text" class="form-control" placeholder="width"><span class="input-group-addon">px</span></div>'
+				+ '</div>'
+				+ '</div>'
+
+				+ '<div class="panel panel-primary">'
+				+ '<div class="panel-heading"><h3 class="panel-title">up/down</h3></div>'
+				+ '<div class="panel-body">'
+				+ '<button type="button" id="svg-element-up" class="btn btn-default prop-btns">up</button><button type="button" id="svg-element-down" class="btn btn-default">down</button>'
+				+ '</div>'
+				+ '</div>'
+
+				+ '<div class="btn-group btn-group-justified"><div class="btn-group"><button type="button" id="svg-element-close" class="btn btn-default">Close</button></div></div>'
+	},
+
 	/** TOOLS héritent de Tool, ils manipulent le canvas, 1 seul outil actif à la fois */
 	SELECT_TOOL : {
 		TITLE : "Select an element",
@@ -103,6 +132,14 @@ ToolbarConfig = {
 	 * Les actions s'executent indépendamment du paper raphael et peuvent être appliquées même si un
 	 * outil est en cours d'utilisation
 	 */
+	TOFRONT_ACTION : {
+		TITLE : "Move selection to the front",
+		TEXT : 'up'
+	},
+	TOBACK_ACTION : {
+		TITLE : "Move selection to the back",
+		TEXT : 'down'
+	},
 	CLEAR_ACTION : {
 		TITLE : "Clear scene",
 		ICON : "resources/svgeditor/img/arrow_rotate_clockwise.png",
