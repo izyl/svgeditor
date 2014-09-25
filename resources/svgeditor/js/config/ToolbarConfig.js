@@ -56,47 +56,47 @@ ToolbarConfig = {
 
 	GROUP_TOOL : {
 		TITLE : "Group select",
-		ICON : "resources/svgeditor/img/selectadd.gif",
+		ICON : "resources/svgeditor/img/selectadd.gif"
 	},
 
 	DELETE_TOOL : {
 		TITLE : "Delete a selection",
-		ICON : "resources/svgeditor/img/delete.gif",
+		ICON : "resources/svgeditor/img/delete.gif"
 	},
 
 	RECTANGLE_TOOL : {
 		TITLE : "Draw a rectangle",
-		ICON : "resources/svgeditor/img/rectangle.gif",
+		ICON : "resources/svgeditor/img/rectangle.gif"
 	},
 
 	LINE_TOOL : {
 		TITLE : "Draw a line",
-		ICON : "resources/svgeditor/img/line.gif",
+		ICON : "resources/svgeditor/img/line.gif"
 	},
 
 	CIRCLE_TOOL : {
 		TITLE : "Draw a circle",
-		ICON : "resources/svgeditor/img/circle.gif",
+		ICON : "resources/svgeditor/img/circle.gif"
 	},
 
 	PATH_TOOL : {
 		TITLE : "Draw a path",
-		ICON : "resources/svgeditor/img/path.gif",
+		ICON : "resources/svgeditor/img/path.gif"
 	},
 
 	POLYGON_TOOL : {
 		TITLE : "Draw a polygon",
-		ICON : "resources/svgeditor/img/polygon.gif",
+		ICON : "resources/svgeditor/img/polygon.gif"
 	},
 
 	IMAGE_TOOL : {
 		TITLE : "Insert an image",
-		ICON : "resources/svgeditor/img/image.gif",
+		ICON : "resources/svgeditor/img/image.gif"
 	},
 
 	TEXT_TOOL : {
 		TITLE : "Write some text",
-		ICON : "resources/svgeditor/img/text.gif",
+		ICON : "resources/svgeditor/img/text.gif"
 	},
 
 	/**
@@ -123,17 +123,17 @@ ToolbarConfig = {
 
 	IMPORT_ACTION : {
 		TITLE : "Import a file",
-		ICON : "resources/svgeditor/img/folder_go.png",
+		ICON : "resources/svgeditor/img/folder_go.png"
 	},
 
 	EXPORT_ACTION : {
 		TITLE : 'Export a file',
-		ICON : 'resources/svgeditor/img/script_code.png',
+		ICON : 'resources/svgeditor/img/script_code.png'
 	},
 
 	SAVE_ACTION : {
 		TITLE : 'Save your work',
-		ICON : 'resources/svgeditor/img/disk.png',
+		ICON : 'resources/svgeditor/img/disk.png'
 	}
 
 };
