@@ -23,6 +23,11 @@
 	var grid = [];
 	var selectTool;
 
+	// prevent firefox default drag behaviour
+	$(document).on('dragstart', function(e) {
+		e.preventDefault();
+	});
+
 	var methods = {
 		init : function(options) {
 			return this.each(function() {

@@ -159,6 +159,7 @@ mat.click(function(e) {
 				keepRatio : true,
 				draw : [ 'bbox', 'circle' ]
 			});
+			//freetransform.dblclick(me.onDblClick);
 			freetransform.apply();
 		}
 	}
@@ -223,6 +224,7 @@ mat.click(function(e) {
 			if (!me.active) {
 				return;
 			}
+			
 			console.log('dbl');
 			var element = this;
 
