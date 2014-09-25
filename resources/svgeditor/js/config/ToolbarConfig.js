@@ -172,5 +172,4 @@ ToolbarConfig = {
 		TITLE : 'Save your work',
 		ICON : 'resources/svgeditor/img/disk.png'
 	}
-
 };
