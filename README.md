@@ -1,15 +1,16 @@
-svgeditor
-=========
+#svgeditor
 
-jquery plugin svg editor (jquery + raphael + bootstrap )
+### An svg editor as a jquery plugin (jquery + raphael + bootstrap )
 
-api :
+##svg api :
 http://raphaeljs.com/
 
-extensions :
-https://github.com/ElbertF/Raphael.FreeTransform
-https://github.com/ElbertF/Raphael.Export
-http://raphaeljs.com/colorpicker.js
+##raphael's extensions :
 
-tutos :
-http://cancerbero.mbarreneche.com/raphaeltut/
+* https://github.com/ElbertF/Raphael.FreeTransform
+* https://github.com/ElbertF/Raphael.Export
+* http://raphaeljs.com/colorpicker.js
+
+##usefull tutos :
+
+* http://cancerbero.mbarreneche.com/raphaeltut/
