@@ -10,7 +10,10 @@ var ToBackAction = Action.extend(function($, context) {
 
 		activate : function() {
 			this._super();
-			$(this).trigger('svge.toBack');
+
+			ToolManager.getTool('selectTool').getSelection().forEach(function(elem) {
+				elem.toBack();
+			});
 		}
 	};
 });

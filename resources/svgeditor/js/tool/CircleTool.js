@@ -53,23 +53,20 @@ var CircleTool = Tool.extend(function($, context) {
 		icon : ToolbarConfig.CIRCLE_TOOL.ICON,
 
 		onMouseDown : function(e) {
-			console.log('start');
 			start(e);
 		},
 
 		onMouseMove : function(e) {
-			console.log('move');
 			if (form) {
 				draw(e);
 			}
 		},
 
 		onMouseUp : function(e) {
-			console.log('up');
 			if (form) {
 				draw(e);
-				$this.trigger('svge.addElement', form);
-				console.log('addELem');
+				form.mousedown(ToolManager.getTool('selectTool').onSelect);
+				form.dblclick(ToolManager.getTool('selectTool').onDblClick);
 				form = null;
 			}
 		}

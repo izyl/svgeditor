@@ -15,11 +15,12 @@ var SaveAction = Action.extend(function($, context) {
 			// puis affichage du résulat
 			var _alert = context.$alert.clone();
 			_alert.addClass('alert alert-info');
-
-			var svg = context.paper.toSVG(context.grid);
-			$($.parseXML(svg)).find(".svg-grid").each(function(line) {
+			
+			var svg = context.paper.toSVG(ToolManager.getTool('gridAction').getGrid());
+			$($.parseXML(svg)).find(".svg-grid").each(function(line){
 				line.remove();
 			});
+			
 			_alert.find('.contentspan').text(svg);
 			context.$canvas.after(_alert);
 

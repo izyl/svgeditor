@@ -10,7 +10,9 @@ var ToFrontAction = Action.extend(function($, context) {
 
 		activate : function() {
 			this._super();
-			$(this).trigger('svge.toFront');
+			ToolManager.getTool('selectTool').getSelection().forEach(function(elem) {
+				elem.toFront();
+			});
 		}
 	};
 });

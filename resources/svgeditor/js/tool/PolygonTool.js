@@ -36,7 +36,8 @@ var PolygonTool = Tool.extend(function($, context) {
 	// close the polygon
 	function end(e) {
 		form.attr('path', tmpPath);
-		$this.trigger('svge.addElement', form);
+		form.mousedown(ToolManager.getTool('selectTool').onSelect);
+		form.dblclick(ToolManager.getTool('selectTool').onDblClick);
 
 		// prepare for a new polygon
 		form = null;
@@ -60,6 +61,7 @@ var PolygonTool = Tool.extend(function($, context) {
 
 		onDblclick : function(e) {
 			end(e);
+			
 		},
 
 		desactivate : function() {

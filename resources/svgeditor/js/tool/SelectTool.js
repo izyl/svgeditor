@@ -21,117 +21,69 @@ var SelectTool = Tool.extend(function($, context) {
 	});
 
 	// Example rectangle de selection : http://jsfiddle.net/ELBVG/2/
-	
+
 	/*
 	 * var R = Raphael(0,0, 500, 500);
+	 * 
+	 * 
+	 * 
+	 * var mat = R.rect(0, 0, R.width, R.height); mat.attr("stroke", "#000"); mat.attr("fill",
+	 * "#fff"); mat.attr("opacity", "0");
+	 * 
+	 * var circle = R.circle(50, 40, 10); circle.attr("fill", "#f00"); var rect = R.rect(100, 50,
+	 * 100,100); rect.attr("fill", "#f00");
+	 * 
+	 * 
+	 * var box; var selections = R.set();
+	 * 
+	 * var start = function(x, y, event) { var bnds = event.target.getBoundingClientRect();
+	 * 
+	 * var mx = event.clientX - bnds.left; var my = event.clientY - bnds.top;
+	 * 
+	 * var fx = mx / bnds.width * mat.attrs.width; var fy = my / bnds.height * mat.attrs.height;
+	 * 
+	 * fx = Number(fx).toPrecision(3); fy = Number(fy).toPrecision(3);
+	 * 
+	 * box = R.rect(fx, fy, 0, 0).attr("stroke", "#9999FF"); }, move = function(dx, dy, event) { var
+	 * xoffset = 0, yoffset = 0; if (dx < 0) { xoffset = dx; dx = -1 * dx; } if (dy < 0) { yoffset =
+	 * dy; dy = -1 * dy; } box.transform("T" + xoffset + "," + yoffset); box.attr("width", dx);
+	 * box.attr("height", dy); }, up = function() {
+	 * 
+	 * var bounds = box.getBBox();
+	 * 
+	 * box.remove();
+	 * 
+	 * reset();
+	 * 
+	 * R.forEach(function(el) {
+	 * 
+	 * var mybounds = el.getBBox();
+	 * 
+	 * if (mybounds.x >= bounds.x && mybounds.x <= bounds.x2 || mybounds.x2 >= bounds.x &&
+	 * mybounds.x2 <= bounds.x2) { if (mybounds.y >= bounds.y && mybounds.y <= bounds.y2 ||
+	 * mybounds.y2 >= bounds.y && mybounds.y2 <= bounds.y2) { selections.push(el); } } });
+	 * 
+	 * if (selections.length > 0) { var sft = R.freeTransform(selections); sft.setOpts({ drag :
+	 * 'self', draw : 'bbox', rotate : false, scale : false }, function(sft, events) { if
+	 * (events.indexOf('drag end') !== -1) { sft.apply();
+	 * 
+	 * selections.forEach(function(entry) { //var abc = R.freeTransform(entry);
+	 * 
+	 * //abc.apply(); //abc.updateHandles();
+	 * 
+	 * });
+	 * 
+	 * sft.unplug(); }
+	 * 
+	 * }); } };
+	 * 
+	 * function reset() { if (typeof sft !== 'undefined') {
+	 * 
+	 * sft.unplug(); } selections = R.set(); }
+	 * 
+	 * mat.drag(move, start, up); mat.click(function(e) { reset(); });
+	 */
 
-
-
-var mat = R.rect(0, 0, R.width, R.height);
-mat.attr("stroke", "#000");
-mat.attr("fill", "#fff");
-mat.attr("opacity", "0");
-
-var circle = R.circle(50, 40, 10);
-circle.attr("fill", "#f00");
-var rect = R.rect(100, 50, 100,100);
-rect.attr("fill", "#f00");
-
-
-var box;
-var selections = R.set();
-
-var start = function(x, y, event) {
-    var bnds = event.target.getBoundingClientRect();
-
-    var mx = event.clientX - bnds.left;
-    var my = event.clientY - bnds.top;
-
-    var fx = mx / bnds.width * mat.attrs.width;
-    var fy = my / bnds.height * mat.attrs.height;
-
-    fx = Number(fx).toPrecision(3);
-    fy = Number(fy).toPrecision(3);
-
-    box = R.rect(fx, fy, 0, 0).attr("stroke", "#9999FF");
-
-}, move = function(dx, dy, event) {
-    var xoffset = 0, yoffset = 0;
-    if (dx < 0) {
-        xoffset = dx;
-        dx = -1 * dx;
-    }
-    if (dy < 0) {
-        yoffset = dy;
-        dy = -1 * dy;
-    }
-    box.transform("T" + xoffset + "," + yoffset);
-    box.attr("width", dx);
-    box.attr("height", dy);
-}, up = function() {
-
-    var bounds = box.getBBox();
-
-    box.remove();
-
-    reset();
-
-    R.forEach(function(el) {
-
-        var mybounds = el.getBBox();
-
-        if (mybounds.x >= bounds.x && mybounds.x <= bounds.x2
-                || mybounds.x2 >= bounds.x && mybounds.x2 <= bounds.x2) {
-            if (mybounds.y >= bounds.y && mybounds.y <= bounds.y2
-                    || mybounds.y2 >= bounds.y && mybounds.y2 <= bounds.y2) {
-                selections.push(el);
-            }
-        }
-    });
-
-    if (selections.length > 0) {
-        var sft = R.freeTransform(selections);
-        sft.setOpts({
-            drag : 'self',
-            draw : 'bbox',
-            rotate : false,
-            scale : false
-        }, function(sft, events) {
-            if (events.indexOf('drag end') !== -1) {
-                sft.apply();
-
-                selections.forEach(function(entry) {
-                    //var abc = R.freeTransform(entry);
-
-                    //abc.apply();
-                    //abc.updateHandles();
-
-                });
-
-                sft.unplug();
-
-            }
-
-        });
-
-    }
-
-};
-
-function reset() {
-    if (typeof sft !== 'undefined') {
-
-        sft.unplug();
-    }
-    selections = R.set();
-}
-
-mat.drag(move, start, up);
-mat.click(function(e) {
-    reset();
-});
-	 * */
-	
 	var selection = context.paper.set();
 	var freetransform;
 
@@ -159,7 +111,7 @@ mat.click(function(e) {
 				keepRatio : true,
 				draw : [ 'bbox', 'circle' ]
 			});
-			//freetransform.dblclick(me.onDblClick);
+			// freetransform.dblclick(me.onDblClick);
 			freetransform.apply();
 		}
 	}
@@ -170,16 +122,8 @@ mat.click(function(e) {
 		title : ToolbarConfig.SELECT_TOOL.TITLE,
 		icon : ToolbarConfig.SELECT_TOOL.ICON,
 
-		toFront : function() {
-			selection.forEach(function(elem) {
-				elem.toFront();
-			});
-		},
-
-		toBack : function() {
-			selection.forEach(function(elem) {
-				elem.toBack();
-			});
+		getSelection : function() {
+			return selection;
 		},
 
 		clearSelection : function() {
@@ -197,11 +141,15 @@ mat.click(function(e) {
 				freetransform.unplug();
 			}
 			selection.clear();
+
+			if (me.active) {
+				me.activate();
+			}
 		},
 
 		onMouseDown : function(e) {
 			var element = context.paper.getElementByPoint(e.pageX, e.pageY);
-			if (!element) {
+			if (!element || element.data('grid')) {
 				me.clearSelection();
 				$popover.popover('hide');
 			}
@@ -224,8 +172,7 @@ mat.click(function(e) {
 			if (!me.active) {
 				return;
 			}
-			
-			console.log('dbl');
+
 			var element = this;
 
 			$popover.css('position', 'absolute');
@@ -234,24 +181,27 @@ mat.click(function(e) {
 			$popover.css('top', context.$canvas.offset().top + bbox.y2 - (bbox.height / 2));
 			$popover.popover('show');
 
+			$('.colorpick').colorpicker();
+			$('.slider').slider();
+
 			$('#svg-element-close').on('click', function(e) {
 				$popover.popover('hide');
 			});
 
-			$('#svg-element-stroke-color').val(element.attr('stroke')).on('change', function(e) {
-				selection.attr('stroke', '#' + $(this).val());
+			$('#svg-element-stroke-color').on('changeColor', function(e) {
+				selection.attr('fill', e.color.toHex());
 			});
 			$('#svg-element-stroke-width').on('change', function(e) {
 				selection.attr('stroke-width', $(this).val());
 			});
-			$('#svg-element-stroke-opacity').on('change', function(e) {
-				selection.attr('stroke-opacity', $(this).val() + '%');
+			$('#svg-element-stroke-opacity').on('slide', function(e) {
+				selection.attr('stroke-opacity', $(this).slider('getValue') + '%');
 			});
-			$('#svg-element-fill-color').on('change', function(e) {
-				selection.attr('fill', '#' + $(this).val());
+			$('#svg-element-fill-color').on('changeColor', function(e) {
+				selection.attr('fill', e.color.toHex());
 			});
-			$('#svg-element-fill-opacity').on('change', function(e) {
-				selection.attr('fill-opacity', $(this).val() + '%');
+			$('#svg-element-fill-opacity').on('slide', function(e) {
+				selection.attr('fill-opacity', $(this).slider('getValue') + '%');
 			});
 			$('#svg-element-up').on('click', function(e) {
 				selection.toFront();

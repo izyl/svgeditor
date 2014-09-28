@@ -1,9 +1,19 @@
+// As an example we will apply svgeditor on the html element with id : svgeditor
+// We will create the editor with all tools and actions.
+// Each array of tools/actions is a toolbar group.
 var Boot = {
 	onReady : function() {
 
-		$("#svgeditor").svgeditor({
-			initGrid : true
-		});
+		$("#svgeditor").svgeditor(
+				{
+					toolbar : [ [ 'selectTool', 'toFrontAction', 'toBackAction', 'deleteAction', 'clearAction' ],
+							[ 'rectangleTool', 'lineTool', 'circleTool', 'pathTool', 'polygonTool', 'imageTool', 'textTool' ],
+							[ 'gridAction', 'colorAction', 'strokeAction' ], [ 'importAction', 'exportAction', 'saveAction' ] ],
+							
+					importImage : function(){
+						// add your method here, 
+					}
+				});
 
 		var secret = 'klkslashslash';
 		var typed = "";
@@ -26,11 +36,8 @@ var Boot = {
 
 							}
 						});
+
 	}
 };
 
 $(document).ready(Boot.onReady);
-
-// k : 107
-// l : 108
-// / : 47

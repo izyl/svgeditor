@@ -53,16 +53,18 @@ ToolbarConfig = {
 		CONTENT : '<div class="panel panel-primary">'
 				+ '<div class="panel-heading"><h3 class="panel-title">Fill</h3></div>'
 				+ '<div class="panel-body">'
-				+ '<div class="input-group prop-btns"><span class="input-group-addon">#</span><input id="svg-element-fill-color" type="text" class="form-control" placeholder="color"></div>'
-				+ '<div class="input-group prop-btns"><input id="svg-element-fill-opacity" type="text" class="form-control" placeholder="opacity"><span class="input-group-addon">%</span></div>'
+				+ '<div id="svg-element-fill-color" class="input-group prop-btns colorpick"><input type="text" class="form-control" placeholder="color"><span class="input-group-addon"><i></i></span></div>'
+				+ '<div>Opacity'
+				+ '<input id="svg-element-fill-opacity" class="slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/>'
+				+ '</div>'
 				+ '</div>'
 				+ '</div>'
 
 				+ '<div class="panel panel-primary">'
 				+ '<div class="panel-heading"><h3 class="panel-title">Stroke</h3></div>'
 				+ '<div class="panel-body">'
-				+ '<div class="input-group prop-btns"><span class="input-group-addon">#</span><input id="svg-element-stroke-color"  type="text" class="form-control" placeholder="color"></div>'
-				+ '<div class="input-group prop-btns"><input id="svg-element-stroke-opacity" type="text" class="form-control" placeholder="opacity"><span class="input-group-addon">%</span></div>'
+				+ '<div id="svg-element-stroke-color" class="input-group prop-btns colorpick"><input type="text" class="form-control" placeholder="color"><span class="input-group-addon"><i></i></span></div>'
+				+ '<div>Opacity<input id="svg-element-stroke-opacity" class="slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/></div>'
 				+ '<div class="input-group prop-btns"><input id="svg-element-stroke-width" type="text" class="form-control" placeholder="width"><span class="input-group-addon">px</span></div>'
 				+ '</div>'
 				+ '</div>'
@@ -75,6 +77,10 @@ ToolbarConfig = {
 				+ '</div>'
 
 				+ '<div class="btn-group btn-group-justified"><div class="btn-group"><button type="button" id="svg-element-close" class="btn btn-default">Close</button></div></div>'
+	},
+
+	TEXT_DIALOG : {
+		CONTENT : '<div class="input-group prop-btns"><input id="svg-text-input" type="text" class="form-control" placeholder="Enter your text"><span id="svg-text-close" class="input-group-addon">ok</span></div>'
 	},
 
 	/** TOOLS héritent de Tool, ils manipulent le canvas, 1 seul outil actif à la fois */
@@ -156,6 +162,11 @@ ToolbarConfig = {
 		TITLE : "Customize your stroke",
 		// ICON : "resources/svgeditor/img/stroke.gif",
 		TEXT : "Stroke"
+	},
+
+	GRID_ACTION : {
+		TITLE : "Show/Hide grid",
+		ICON : "resources/svgeditor/img/grid.png"
 	},
 
 	IMPORT_ACTION : {
