@@ -3,6 +3,7 @@ var SelectTool = Tool.extend(function($, context) {
 
 	// privates
 	var KEYCODE_ESCAPE = 27;
+	var ctrlDown = false;
 	var $popover = $('<div></div>');
 	$popover.popover({
 		'title' : function() {
@@ -11,13 +12,27 @@ var SelectTool = Tool.extend(function($, context) {
 		'html' : true,
 		'content' : ToolbarConfig.PROPERTIES_DIALOG.CONTENT
 	});
+	// pas d'historique, juste la dernière copy
+	var clipboard;
 
 	$('body').append($popover);
 	var me = this;
+	// TODO : faire un singleton HotkeyManager pour la définition de tous les raccourcis qui
+	// appelera les actions et les tools via ToolManager
 	$(document).keydown(function(e) {
+
 		if (KEYCODE_ESCAPE == e.keyCode) {
 			me.clearSelection();
+		} else if (e.keyCode == 17) {
+			ctrlDown = true;
+		} else if (ctrlDown && e.keyCode == 67) {
+			copy();
+		} else if (ctrlDown && e.keyCode == 86) {
+			paste();
 		}
+	}).keyup(function(e) {
+		if (e.keyCode == 17)
+			ctrlDown = false;
 	});
 
 	// Example rectangle de selection : http://jsfiddle.net/ELBVG/2/
@@ -87,6 +102,22 @@ var SelectTool = Tool.extend(function($, context) {
 	var selection = context.paper.set();
 	var freetransform;
 
+	function copy() {
+		if (clipboard) {
+			clipboard.remove();
+		}
+		clipboard = selection.clone().hide();
+	}
+
+	function paste(e) {
+		if (clipboard) {
+			me.clearSelection();
+			var clone = clipboard.clone();
+			clone.mousedown(ToolManager.getTool('selectTool').onSelect);
+			clone.dblclick(ToolManager.getTool('selectTool').onDblClick);
+		}
+	}
+
 	function isElementSelected(element) {
 		var found = false;
 		selection.forEach(function(elem) {
@@ -100,20 +131,19 @@ var SelectTool = Tool.extend(function($, context) {
 	}
 
 	function select(element) {
-		if (!isElementSelected(element)) {
-			selection.push(element);
 
-			if (freetransform) {
-				freetransform.unplug();
-			}
+		selection.push(element);
 
-			freetransform = context.paper.freeTransform(selection, {
-				keepRatio : true,
-				draw : [ 'bbox', 'circle' ]
-			});
-			// freetransform.dblclick(me.onDblClick);
-			freetransform.apply();
+		if (freetransform) {
+			freetransform.unplug();
 		}
+
+		freetransform = context.paper.freeTransform(selection, {
+			keepRatio : true,
+			draw : [ 'bbox', 'circle' ]
+		});
+		// freetransform.dblclick(me.onDblClick);
+		freetransform.apply();
 	}
 
 	// public
@@ -157,8 +187,15 @@ var SelectTool = Tool.extend(function($, context) {
 
 		onSelect : function(e) {
 			if (me.active) {
-				select(this);
-				e.stopPropagation();
+				
+				if (selection.length > 0 && !isElementSelected(this)) {
+					if (!ctrlDown)
+						me.clearSelection();
+					select(this);
+				} else if (!isElementSelected(this))
+					select(this);
+				else if (!isElementSelected(this) && !ctrlDown)
+					me.clearSelection();
 			}
 		},
 
@@ -189,10 +226,10 @@ var SelectTool = Tool.extend(function($, context) {
 			});
 
 			$('#svg-element-stroke-color').on('changeColor', function(e) {
-				selection.attr('fill', e.color.toHex());
+				selection.attr('stroke', e.color.toHex());
 			});
-			$('#svg-element-stroke-width').on('change', function(e) {
-				selection.attr('stroke-width', $(this).val());
+			$('#svg-element-stroke-width').on('keyup', function(e) {
+				selection.attr('stroke-width', $(this).val() + 'px');
 			});
 			$('#svg-element-stroke-opacity').on('slide', function(e) {
 				selection.attr('stroke-opacity', $(this).slider('getValue') + '%');

@@ -15,6 +15,7 @@ var TextTool = Tool.extend(function($, context) {
 		center = me.getMousePosition(e);
 		var pos = me.getMousePosition(e);
 		form = context.paper.text(pos.x, pos.y, "text");
+		form.attr('font-size', ToolbarConfig.text.size);
 
 		$popover.css('position', 'absolute');
 		var bbox = form.getBBox();
@@ -24,15 +25,20 @@ var TextTool = Tool.extend(function($, context) {
 
 		$('#svg-text-close').on('click', function(e) {
 			$popover.popover('hide');
+			form = null;
 		});
 
-		$('#svg-text-input').on('change', function(e) {
-			console.log($(this));
+		$('#svg-text-input').on('keypress', function(e) {
 			form.attr('text', $(this).val());
 		});
 
 		form.mousedown(ToolManager.getTool('selectTool').onSelect);
 		form.dblclick(ToolManager.getTool('selectTool').onDblClick);
+	}
+
+	function end() {
+		$popover.popover('hide');
+		form = null;
 	}
 
 	// public
@@ -41,11 +47,17 @@ var TextTool = Tool.extend(function($, context) {
 		icon : ToolbarConfig.TEXT_TOOL.ICON,
 
 		onMouseDown : function(e) {
-			start(e);
+			if (form) {
+				end();
+			} else {
+				start(e);
+			}
 		},
 
-		activate : function() {
+		desactivate : function() {
 			me._super();
+
+			$popover.popover('hide');
 		}
 	};
 });

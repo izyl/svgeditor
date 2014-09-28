@@ -11,6 +11,10 @@ ToolbarConfig = {
 		opacity : .90
 	},
 
+	text : {
+		size : 20
+	},
+
 	glow : {
 		width : 5,
 		opacity : 1,
@@ -85,7 +89,7 @@ ToolbarConfig = {
 
 	/** TOOLS héritent de Tool, ils manipulent le canvas, 1 seul outil actif à la fois */
 	SELECT_TOOL : {
-		TITLE : "Select an element",
+		TITLE : "Select an element, hold CTRL key to group",
 		ICON : "resources/svgeditor/img/select.gif"
 	},
 
