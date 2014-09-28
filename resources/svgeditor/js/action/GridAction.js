@@ -9,18 +9,13 @@ var GridAction = Action.extend(function($, context) {
 
 	function showGrid() {
 		grid = [];
-		// On ne veut pas que les clicks sur les lignes de la grille soient propagés : sinon
-		// elle
-		// serait selectionnable au meme titre que les autres éléments -> cliquer sur une case
-		// ne
-		// déclencherait pas la déselection
+		// vertical lines
 		for (var x = (context.$canvas.offset().left % ToolbarConfig.gridCellSize); x < context.$canvas.width(); x += ToolbarConfig.gridCellSize) {
 			var vpath = "M " + x + " 0 l 0 " + context.$canvas.height() + " z";
 			var path = context.paper.path(vpath);
 			path.attr(ToolbarConfig.grid);
-			path.attr(ToolbarConfig.grid);
-			path.node.className.baseVal += " svg-grid";
 			path.data('grid', true);
+			path.toBack();
 			grid.push(path);
 		}
 		// horizontal lines
@@ -28,8 +23,8 @@ var GridAction = Action.extend(function($, context) {
 			var hpath = "M 0 " + y + " l " + context.$canvas.width() + " 0 z";
 			var path = context.paper.path(hpath);
 			path.attr(ToolbarConfig.grid);
-			path.node.className.baseVal += " svg-grid";
 			path.data('grid', true);
+			path.toBack();
 			grid.push(path);
 		}
 	}

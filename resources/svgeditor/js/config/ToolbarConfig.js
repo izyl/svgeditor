@@ -54,37 +54,61 @@ ToolbarConfig = {
 
 	PROPERTIES_DIALOG : {
 		TITLE : 'Element properties',
-		CONTENT : '<div class="panel panel-primary">'
-				+ '<div class="panel-heading"><h3 class="panel-title">Fill</h3></div>'
-				+ '<div class="panel-body">'
-				+ '<div id="svg-element-fill-color" class="input-group prop-btns colorpick"><input type="text" class="form-control" placeholder="color"><span class="input-group-addon"><i></i></span></div>'
-				+ '<div>Opacity'
-				+ '<input id="svg-element-fill-opacity" class="slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/>'
-				+ '</div>'
-				+ '</div>'
-				+ '</div>'
+		CONTENT :'<div class="panel panel-primary">'
+		+ '<div class="panel-heading">'
+		+ '<h3 class="panel-title">Fill</h3>'
+		+ '</div>'
+		+ '<div class="panel-body">'
+		+ '<div id="svg-element-fill-color" class="input-group prop-btns colorpick">'
+		+ '<input type="text" class="form-control" placeholder="color"><span class="input-group-addon"><i></i></span>'
+		+ '</div>'
+		+ '<div>Opacity<input id="svg-element-fill-opacity" class="slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />'
+		+ '</div>'
+		+ '</div>'
+		+ '</div>'
 
-				+ '<div class="panel panel-primary">'
-				+ '<div class="panel-heading"><h3 class="panel-title">Stroke</h3></div>'
-				+ '<div class="panel-body">'
-				+ '<div id="svg-element-stroke-color" class="input-group prop-btns colorpick"><input type="text" class="form-control" placeholder="color"><span class="input-group-addon"><i></i></span></div>'
-				+ '<div>Opacity<input id="svg-element-stroke-opacity" class="slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14"/></div>'
-				+ '<div class="input-group prop-btns"><input id="svg-element-stroke-width" type="text" class="form-control" placeholder="width"><span class="input-group-addon">px</span></div>'
-				+ '</div>'
-				+ '</div>'
+		+ '<div class="panel panel-primary">'
+		+ '<div class="panel-heading">'
+		+ '<h3 class="panel-title">Stroke</h3>'
+		+ '</div>'
+		+ '<div class="panel-body">'
+		+ '<div id="svg-element-stroke-color" class="input-group prop-btns colorpick">'
+		+ '<input type="text" class="form-control" placeholder="color"><span class="input-group-addon"><i></i></span>'
+		+ '</div>'
+		
+		+ '<div>'
+		+ 'Opacity<input id="svg-element-stroke-opacity" class="slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />'
+		+ '</div>'
+		
+		
+		+ '<div class="input-group prop-btns">'
+		+ '<input id="svg-element-stroke-width" type="text" class="form-control" placeholder="width"><span class="input-group-addon">px</span>'
+		+ '</div>'
+		+ '</div>'
+		+ '</div>'
 
-				+ '<div class="panel panel-primary">'
-				+ '<div class="panel-heading"><h3 class="panel-title">up/down</h3></div>'
-				+ '<div class="panel-body">'
-				+ '<button type="button" id="svg-element-up" class="btn btn-default prop-btns">up</button><button type="button" id="svg-element-down" class="btn btn-default">down</button>'
-				+ '</div>'
-				+ '</div>'
+		+ '<div class="panel panel-primary">'
+		+ '<div class="panel-heading">'
+		+ '<h3 class="panel-title">up/down</h3>'
+		+ '</div>'
+		+ '<div class="panel-body">'
+		+ '<button type="button" id="svg-element-up" class="btn btn-default prop-btns">up</button>'
+		+ '<button type="button" id="svg-element-down" class="btn btn-default">down</button>'
+		+ '</div>'
+		+ '</div>'
 
-				+ '<div class="btn-group btn-group-justified"><div class="btn-group"><button type="button" id="svg-element-close" class="btn btn-default">Close</button></div></div>'
+		+ '<div class="row panel-footer">'
+		+ '<div class="btn-group pull-right">'
+		+ '<button type="button" id="svg-element-close" class="btn btn-primary">Close</button>'
+		+ '</div>'
+		+ '</div>'
 	},
 
 	TEXT_DIALOG : {
-		CONTENT : '<div class="input-group prop-btns"><input id="svg-text-input" type="text" class="form-control" placeholder="Enter your text"><span id="svg-text-close" class="input-group-addon">ok</span></div>'
+		CONTENT : '<div class="row">' + '<div class="input-group prop-btns">'
+				+ '<input id="svg-text-input" type="text" class="form-control" placeholder="Enter your text"><span class="input-group-btn">'
+				+ '<button id="svg-text-close" class="btn btn-primary" type="button">ok</button>' + '</span></div></div>'
+
 	},
 
 	/** TOOLS héritent de Tool, ils manipulent le canvas, 1 seul outil actif à la fois */

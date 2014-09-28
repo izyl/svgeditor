@@ -28,10 +28,13 @@ var TextTool = Tool.extend(function($, context) {
 			form = null;
 		});
 
-		$('#svg-text-input').on('keypress', function(e) {
+		$('#svg-text-input').on('keyup', function(e) {
 			form.attr('text', $(this).val());
 		});
-
+		
+		$popover.on('shown.bs.popover', function(){
+			$('#svg-text-input').focus();
+		});
 		form.mousedown(ToolManager.getTool('selectTool').onSelect);
 		form.dblclick(ToolManager.getTool('selectTool').onDblClick);
 	}
@@ -56,7 +59,6 @@ var TextTool = Tool.extend(function($, context) {
 
 		desactivate : function() {
 			me._super();
-
 			$popover.popover('hide');
 		}
 	};

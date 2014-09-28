@@ -210,8 +210,6 @@ var SelectTool = Tool.extend(function($, context) {
 				return;
 			}
 
-			var element = this;
-
 			$popover.css('position', 'absolute');
 			var bbox = this.getBBox();
 			$popover.css('left', context.$canvas.offset().left + bbox.x2);
