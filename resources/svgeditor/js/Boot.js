@@ -3,7 +3,7 @@
 // Each array of tools/actions is a toolbar group.
 var Boot = {
 	onReady : function() {
-	
+
 		$("#svgeditor").svgeditor(
 				{
 					toolbar : [ [ 'selectTool', 'toFrontAction', 'toBackAction', 'deleteAction', 'clearAction' ],
@@ -14,6 +14,7 @@ var Boot = {
 						// add your method here, 
 					}
 				});
+
 		var secret = 'klkslashslash';
 		var typed = "";
 		$(document)
