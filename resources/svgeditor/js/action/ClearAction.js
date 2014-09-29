@@ -19,7 +19,8 @@ var ClearAction = Action.extend(function($, context) {
 			context.$modal.find('.modal-body p').text('Every elements will be deleted, are you sure?');
 			context.$modal.find('.btn-default').text('Cancel');
 			context.$modal.find('.btn-primary').text('OK').on('click', function(e) {
-				$this.trigger('svge.clearPaper');
+				context.paper.clear();
+				ToolManager.getTool('gridAction').afterClear();
 			});
 			context.$modal.modal({
 				title : 'brrraaaaa'

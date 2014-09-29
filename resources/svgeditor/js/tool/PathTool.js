@@ -48,7 +48,8 @@ var PathTool = Tool.extend(function($, context) {
 		onMouseUp : function(e) {
 			if (form) {
 				end(e);
-				$this.trigger('svge.addElement', form);
+				form.mousedown(ToolManager.getTool('selectTool').onSelect);
+				form.dblclick(ToolManager.getTool('selectTool').onDblClick);
 				form = null;
 			}
 		},

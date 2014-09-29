@@ -11,6 +11,10 @@ ToolbarConfig = {
 		opacity : .90
 	},
 
+	text : {
+		size : 20
+	},
+
 	glow : {
 		width : 5,
 		opacity : 1,
@@ -22,7 +26,7 @@ ToolbarConfig = {
 	grid : {
 		"fill" : "#fff",
 		"stroke" : "#ccc",
-		"stroke-width" : 0.13,
+		"stroke-width" : .5,
 		"opacity" : 1
 	},
 
@@ -50,36 +54,66 @@ ToolbarConfig = {
 
 	PROPERTIES_DIALOG : {
 		TITLE : 'Element properties',
-		CONTENT : '<div class="panel panel-primary">'
-				+ '<div class="panel-heading"><h3 class="panel-title">Fill</h3></div>'
-				+ '<div class="panel-body">'
-				+ '<div class="input-group prop-btns"><span class="input-group-addon">#</span><input id="svg-element-fill-color" type="text" class="form-control" placeholder="color"></div>'
-				+ '<div class="input-group prop-btns"><input id="svg-element-fill-opacity" type="text" class="form-control" placeholder="opacity"><span class="input-group-addon">%</span></div>'
-				+ '</div>'
-				+ '</div>'
+		CONTENT :'<div class="panel panel-primary">'
+		+ '<div class="panel-heading">'
+		+ '<h3 class="panel-title">Fill</h3>'
+		+ '</div>'
+		+ '<div class="panel-body">'
+		+ '<div id="svg-element-fill-color" class="input-group prop-btns colorpick">'
+		+ '<input type="text" class="form-control" placeholder="color"><span class="input-group-addon"><i></i></span>'
+		+ '</div>'
+		+ '<div>Opacity<input id="svg-element-fill-opacity" class="slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />'
+		+ '</div>'
+		+ '</div>'
+		+ '</div>'
 
-				+ '<div class="panel panel-primary">'
-				+ '<div class="panel-heading"><h3 class="panel-title">Stroke</h3></div>'
-				+ '<div class="panel-body">'
-				+ '<div class="input-group prop-btns"><span class="input-group-addon">#</span><input id="svg-element-stroke-color"  type="text" class="form-control" placeholder="color"></div>'
-				+ '<div class="input-group prop-btns"><input id="svg-element-stroke-opacity" type="text" class="form-control" placeholder="opacity"><span class="input-group-addon">%</span></div>'
-				+ '<div class="input-group prop-btns"><input id="svg-element-stroke-width" type="text" class="form-control" placeholder="width"><span class="input-group-addon">px</span></div>'
-				+ '</div>'
-				+ '</div>'
+		+ '<div class="panel panel-primary">'
+		+ '<div class="panel-heading">'
+		+ '<h3 class="panel-title">Stroke</h3>'
+		+ '</div>'
+		+ '<div class="panel-body">'
+		+ '<div id="svg-element-stroke-color" class="input-group prop-btns colorpick">'
+		+ '<input type="text" class="form-control" placeholder="color"><span class="input-group-addon"><i></i></span>'
+		+ '</div>'
+		
+		+ '<div>'
+		+ 'Opacity<input id="svg-element-stroke-opacity" class="slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="14" />'
+		+ '</div>'
+		
+		
+		+ '<div class="input-group prop-btns">'
+		+ '<input id="svg-element-stroke-width" type="text" class="form-control" placeholder="width"><span class="input-group-addon">px</span>'
+		+ '</div>'
+		+ '</div>'
+		+ '</div>'
 
-				+ '<div class="panel panel-primary">'
-				+ '<div class="panel-heading"><h3 class="panel-title">up/down</h3></div>'
-				+ '<div class="panel-body">'
-				+ '<button type="button" id="svg-element-up" class="btn btn-default prop-btns">up</button><button type="button" id="svg-element-down" class="btn btn-default">down</button>'
-				+ '</div>'
-				+ '</div>'
+		+ '<div class="panel panel-primary">'
+		+ '<div class="panel-heading">'
+		+ '<h3 class="panel-title">up/down</h3>'
+		+ '</div>'
+		+ '<div class="panel-body">'
+		+ '<button type="button" id="svg-element-up" class="btn btn-default prop-btns">up</button>'
+		+ '<button type="button" id="svg-element-down" class="btn btn-default">down</button>'
+		+ '</div>'
+		+ '</div>'
 
-				+ '<div class="btn-group btn-group-justified"><div class="btn-group"><button type="button" id="svg-element-close" class="btn btn-default">Close</button></div></div>'
+		+ '<div class="row panel-footer">'
+		+ '<div class="btn-group pull-right">'
+		+ '<button type="button" id="svg-element-close" class="btn btn-primary">Close</button>'
+		+ '</div>'
+		+ '</div>'
+	},
+
+	TEXT_DIALOG : {
+		CONTENT : '<div class="row">' + '<div class="input-group prop-btns">'
+				+ '<input id="svg-text-input" type="text" class="form-control" placeholder="Enter your text"><span class="input-group-btn">'
+				+ '<button id="svg-text-close" class="btn btn-primary" type="button">ok</button>' + '</span></div></div>'
+
 	},
 
 	/** TOOLS héritent de Tool, ils manipulent le canvas, 1 seul outil actif à la fois */
 	SELECT_TOOL : {
-		TITLE : "Select an element",
+		TITLE : "Select an element, hold CTRL key to group",
 		ICON : "resources/svgeditor/img/select.gif"
 	},
 
@@ -158,6 +192,11 @@ ToolbarConfig = {
 		TEXT : "Stroke"
 	},
 
+	GRID_ACTION : {
+		TITLE : "Show/Hide grid",
+		ICON : "resources/svgeditor/img/grid.png"
+	},
+
 	IMPORT_ACTION : {
 		TITLE : "Import a file",
 		ICON : "resources/svgeditor/img/folder_go.png"
@@ -172,5 +211,4 @@ ToolbarConfig = {
 		TITLE : 'Save your work',
 		ICON : 'resources/svgeditor/img/disk.png'
 	}
-
 };

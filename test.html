@@ -8,36 +8,59 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <style type="text/css">
-    .bs-example{
-    	margin: 20px;
-    }
+.bs-example {
+	margin: 20px;
+}
 </style>
 </head>
 <body>
-<div class="bs-example">
-    <button type="button" class="btn btn-default">Default</button>
-    <button type="button" class="btn btn-primary">Primary</button>
-    <button type="button" class="btn btn-info">Info</button>
-    <button type="button" class="btn btn-success">Success</button>
-    <button type="button" class="btn btn-warning">Warning</button>
-    <button type="button" class="btn btn-danger">Danger</button>
-    <button type="button" class="btn btn-link">Link</button>
-	<hr>
-    <input type="button" class="btn btn-default" value="Default">
-    <input type="button" class="btn btn-primary" value="Primary">
-    <input type="button" class="btn btn-info" value="Info">
-    <input type="button" class="btn btn-success" value="Success">
-    <input type="button" class="btn btn-warning" value="Warning">
-    <input type="button" class="btn btn-danger" value="Danger">
-    <input type="button" class="btn btn-link" value="Link">
-    <hr>
-    <a href="#" class="btn btn-default">Default</a>
-    <a href="#" class="btn btn-primary">Primary</a>
-    <a href="#" class="btn btn-info">Info</a>
-    <a href="#" class="btn btn-success">Success</a>
-    <a href="#" class="btn btn-warning">Warning</a>
-    <a href="#" class="btn btn-danger">Danger</a>
-    <a href="#" class="btn btn-link">Link</a>
-</div>
+	<div class="panel panel-primary">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">Fill</h3>
+			</div>
+			<div class="panel-body">
+				<div id="svg-element-fill-color" class="input-group prop-btns colorpick">
+					<input type="text" class="form-control" placeholder="color"><span class="input-group-addon"><i></i></span>
+				</div>
+				<div>
+					Opacity <input id="svg-element-fill-opacity" class="slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1"
+						data-slider-value="14" />
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">Stroke</h3>
+			</div>
+			<div class="panel-body">
+				<div id="svg-element-stroke-color" class="input-group prop-btns colorpick">
+					<input type="text" class="form-control" placeholder="color"><span class="input-group-addon"><i></i></span>
+				</div>
+				<div>
+					Opacity<input id="svg-element-stroke-opacity" class="slider" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1"
+						data-slider-value="14" />
+				</div>
+				<div class="input-group prop-btns">
+					<input id="svg-element-stroke-width" type="text" class="form-control" placeholder="width"><span class="input-group-addon">px</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title">up/down</h3>
+			</div>
+			<div class="panel-body">
+				<button type="button" id="svg-element-up" class="btn btn-default prop-btns">up</button>
+				<button type="button" id="svg-element-down" class="btn btn-default">down</button>
+			</div>
+		</div>
+
+		<div class="panel-footer">
+			<button type="button" id="svg-element-close" class="btn btn-primary">Close</button>
+		</div>
+	</div>
 </body>
-</html>                                		
+</html>
